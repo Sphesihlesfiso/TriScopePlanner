@@ -1,9 +1,11 @@
 import express,{Request,Response} from "express"
+import apiRoutes from "./api/routes"
+import dotenv from "dotenv"
+dotenv.config();
 const app=express();
-const port:number=3000
-app.get("/",(req:Request,res:Response)=>{
-    res.send("Hello World")
-})
+app.use(express.json())
+const port  = parseInt(process.env.SERVER_PORT || "3000",10)
+app.get("/",apiRoutes)
 app.listen(port,()=>{
     console.log(`Server running at http://localhost:${port}`)
 })
