@@ -3,6 +3,7 @@ import { dataBase } from '../../config/db';
 
 export function queryFromDb (tableName:string)  {
     return  async (req:Request,res:Response,next:NextFunction) =>{
+        
         try {
             const result = await dataBase.query(`SELECT * FROM ${tableName}`);
             res.status(200).json(result.rows)
@@ -13,30 +14,17 @@ export function queryFromDb (tableName:string)  {
         }
     }
 }
-// export function deleteUpdateItembyId (tableName:string,itemId:number,operation:string){
-//     return async (req:Request,res:Response,next:NextFunction) =>{
-//         try {
-//             let typeId:string;
-//             if (tableName=="users"){
-//                 typeId="user_id"
-//             }else{
-//                 typeId="task_id"
-//             }
+export function deleteTaskById (tableName:string){
+    return async (req:Request,res:Response,next:NextFunction) =>{
+        const id =parseInt(req.params.id)
+        try {
+            const result =await dataBase.query(`DELETE FROM ${tableName} WHERE task_id = ${id}`)
+            res.json(result.rows)
+            next()
 
-//             let crud_operatin :string;
-//             if (operation==="delete"){
-//                 crud_operatin="DELETE"
-                
-//             }else {
-//                 crud_operatin="UPDATE"
-//                 }
-//                 const result =await dataBase.query(`${crud_operatin} WHERE ${typeId} == ${itemId}`)
-//                 res.json(result.rows)
-
-//             }catch (error) {
-//                 console.error(error);
-//                 res.status(404).json({mesage:`Item with ${itemId} id not found`})
-//         }
-
-//     }
-// }
+        }catch (error) {
+            console.error(error);
+            res.status(404).json({mesage:`Item with ${id} id not found`})
+        }
+    }
+}
