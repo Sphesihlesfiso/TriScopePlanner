@@ -1,10 +1,12 @@
 import { Router } from "express";
-import {addUserTask}  from '../controllers/homeControler';
-import { queryFromDb,deleteTaskById} from "../middleware/dbQueries";
+import {addUserTask,replaceTask,deleteTaskById,editTask}  from '../controllers/homeControler';
+import { queryFromDb} from "../middleware/dbQueries";
 
 const router =Router();
-router.get("/",queryFromDb("tasks"));
+router.get("/",queryFromDb);
 router.post("/task",addUserTask)
-router.delete("/user/task/:id",deleteTaskById("tasks"))
+router.delete("/task/:id",deleteTaskById("tasks"))
+router.put("/task/:id",replaceTask)
+router.patch("/task/:id",editTask)
 
 export default router
