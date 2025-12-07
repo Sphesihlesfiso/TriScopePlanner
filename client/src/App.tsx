@@ -4,7 +4,7 @@ function App() {
   return (
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
       {<Home/>}
-      {<h1>Hellow world</h1>}
+
     </ThemeProvider>
   )
 }

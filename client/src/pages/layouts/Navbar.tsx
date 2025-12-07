@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import { ModeToggle } from "@/components/mode-toggle"
 export const NavBar = () => {
   return (
-    <nav className="sticky p-3.5" >
+    <nav className="sticky p-3.5 border" >
         <div className="flex align-middle justify-between">
             <ul className="flex  gap-4 items-center">
                 <li>
@@ -11,7 +11,7 @@ export const NavBar = () => {
                 </li>
 
                 <li>
-                    <h1>Tri-Scope Planner</h1>
+                    <h1 className="text-3xl font-bold">Tri-Scope Planner</h1>
                 </li>
             </ul>
             <ul className="flex  gap-4 items-center">
@@ -23,6 +23,9 @@ export const NavBar = () => {
                 </li>
                 <li>
                     <ModeToggle/>
+                </li>
+                <li>
+                    <Button><LogOut/></Button>
                 </li>
             </ul>
         </div>
