@@ -12,7 +12,7 @@ export const TaskHolder =({scope,due}:TaskHolderProps)=>{
                 <CardDescription>{due}</CardDescription>
             </CardHeader>
             <CardContent>
-                <TaskCard/>
+                <TaskCard title="Online meeting" task="Have a meeting with a client" time="10:00"/>
             </CardContent>
         </Card>
     )
