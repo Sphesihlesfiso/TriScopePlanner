@@ -1,22 +1,21 @@
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-import { Trash,Edit,Calendar ,Clock,X} from "lucide-react";
+
+import { Trash,Edit,Calendar ,Clock} from "lucide-react";
 import { Button } from "./ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Checkbox } from "./ui/checkbox";
+import { useState } from "react";
+import { TaskInputForm } from "./TaskInputForm";
 type TaskCardProps ={
     title:string,
     task:string,
     time:string
 }
 export const TaskCard =({title,task,time}:TaskCardProps) =>{
+    const [isOpen,setIsOpen]=useState(false);
     return(
         <div className="grid grid-rows-2 gap-3 border p-3 rounded-2xl">
             <ul className="flex justify-between gap-1.5">
                 <li>
-                    <input type="checkbox" className=""/>
+                    <Checkbox/>
                 </li>
                 <li>
                     {title}
@@ -34,26 +33,9 @@ export const TaskCard =({title,task,time}:TaskCardProps) =>{
                 </li>
                 <div className="flex align-middle gap-1">
                 <Button><Calendar/></Button>
-                    <Popover>
-            <PopoverTrigger asChild >
-                 <Button ><Edit/></Button>
-            </PopoverTrigger>
-            <PopoverContent>
-                <Card className="border-0">
-                    <CardHeader>
-                        <CardTitle className="flex justify-between items-center">
-                            <h1 className="font-bold">Edit Task</h1> <X/>
-                        </CardTitle>
-        
-                    </CardHeader>
-                    <CardContent>
-                        <p>The form goes here</p>
-                    </CardContent>
-                </Card>
-
-            </PopoverContent>
-        </Popover>
-               
+                
+                            <Button onClick={()=>setIsOpen(!isOpen)} ><Edit/></Button>
+                                {isOpen && <TaskInputForm/>}
                 <Button><Trash/></Button>
             </div>
                 

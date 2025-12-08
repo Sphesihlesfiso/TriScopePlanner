@@ -2,7 +2,7 @@ import { ThemeProvider } from './components/theme-provider'
 import { Home } from './pages/Home'
 function App() {
   return (
-    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+    <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
       {<Home/>}
 
     </ThemeProvider>

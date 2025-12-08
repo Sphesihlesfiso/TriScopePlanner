@@ -3,6 +3,7 @@ import { TaskHolder } from "@/components/TaskHolder";
 export const Home =() =>{
     return (<div>
         <NavBar/>
+
         <div className="p-6">
         <div className="grid  grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
             
@@ -12,6 +13,7 @@ export const Home =() =>{
 
             
         </div>
+        <h1 className="sticky top-96">Checking Display thingie</h1>
         </div>
         
 
