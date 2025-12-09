@@ -6,7 +6,7 @@ type TaskHolderProps = {
 ;}
 export const TaskHolder =({scope,due}:TaskHolderProps)=>{
     return (
-        <Card className="w-full h-full border rounded-2xl">
+        <Card className="w-full  border rounded-2xl">
             <CardHeader className="border-b">
                 <CardTitle>{scope}</CardTitle>
                 <CardDescription>{due}</CardDescription>

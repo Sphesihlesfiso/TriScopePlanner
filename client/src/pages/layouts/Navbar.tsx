@@ -1,6 +1,7 @@
 import { Target ,PlusIcon,LogOut} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ModeToggle } from "@/components/mode-toggle"
+import { TaskInputForm } from "@/components/TaskInputForm"
 export const NavBar = () => {
   return (
     <nav className="sticky p-3.5 border" >
@@ -19,13 +20,17 @@ export const NavBar = () => {
                     <input type="text" placeholder="Search your task" ></input>
                 </li>
                 <li>
-                   <Button> <PlusIcon/></Button>
+                    <TaskInputForm triggerButton={
+                   <Button className="flex flex-row gap-1.5"> <PlusIcon/> New Task</Button>} formType="Create New Task"></TaskInputForm>
                 </li>
                 <li>
                     <ModeToggle/>
                 </li>
                 <li>
-                    <Button><LogOut/></Button>
+                    
+                        <Button type="button"><LogOut/></Button> 
+
+                    
                 </li>
             </ul>
         </div>
