@@ -2,7 +2,7 @@
 import { Trash,Edit,Calendar ,Clock} from "lucide-react";
 import { Button } from "./ui/button";
 import { Checkbox } from "./ui/checkbox";
-import { useState } from "react";
+
 import { TaskInputForm } from "./TaskInputForm";
 type TaskCardProps ={
     title:string,
@@ -10,7 +10,7 @@ type TaskCardProps ={
     time:string
 }
 export const TaskCard =({title,task,time}:TaskCardProps) =>{
-    const [isOpen,setIsOpen]=useState(false);
+    
     return(
         <div className="grid grid-rows-2 gap-3 border p-3 rounded-2xl">
             <ul className="flex justify-between gap-1.5">
@@ -34,8 +34,8 @@ export const TaskCard =({title,task,time}:TaskCardProps) =>{
                 <div className="flex align-middle gap-1">
                 <Button><Calendar/></Button>
                 
-                            <Button onClick={()=>setIsOpen(!isOpen)} ><Edit/></Button>
-                                {isOpen && <TaskInputForm/>}
+                            
+                                <TaskInputForm triggerButton={<Button ><Edit/></Button>}formType="Edit Task" />
                 <Button><Trash/></Button>
             </div>
                 

@@ -10,10 +10,8 @@ export const Home =() =>{
             <TaskHolder scope="Daily" due="Due Today"/>
             <TaskHolder scope="Weekly" due="Due this week"/>
             <TaskHolder scope="Monthly" due="Due later this month"/>
-
             
         </div>
-        <h1 className="sticky top-96">Checking Display thingie</h1>
         </div>
         
 

@@ -1,42 +1,61 @@
 import { InputItem } from "./InputItem";
+import { Textarea } from "@/components/ui/textarea"
+import { Label } from "./ui/label";
+
+
+  
+
 
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { Select,SelectContent,SelectItem,SelectGroup,SelectValue,SelectTrigger } from "./ui/select";
 
 
-export function DialogDemo() {
+type TaskDInputFormProps ={
+    triggerButton :React.ReactNode,
+    formType :string
+}
+
+export const TaskInputForm =({triggerButton,formType } :TaskDInputFormProps) => {
   return (
-    <Dialog>
+         <Dialog>
       <form>
         <DialogTrigger asChild>
-          <Button variant="outline">Open Dialog</Button>
+          {triggerButton}
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="">
           <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
-            <DialogDescription>
-              Make changes to your profile here. Click save when you&apos;re
-              done.
-            </DialogDescription>
+            <DialogTitle>{formType}</DialogTitle>
+           
           </DialogHeader>
-          <div className="grid gap-4">
-            <div className="grid gap-3">
-              <Label htmlFor="name-1">Name</Label>
-              <Input id="name-1" name="name" defaultValue="Pedro Duarte" />
-            </div>
-            <div className="grid gap-3">
-              <Label htmlFor="username-1">Username</Label>
-              <Input id="username-1" name="username" defaultValue="@peduarte" />
-            </div>
+          <div className="grid grid-rows-4 gap-0.5 items-center w-full">
+           
+            <InputItem  inputType="text" inputPlaceholder="Enter task tittle..." inputLabel="Title"/>
+            <Label htmlFor="description">Description</Label>
+            <Textarea placeholder="Enter task Description..."  />
+            
+            <Label htmlFor="description">Scope</Label>
+            <Select >
+                <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Daily(Tactical)"/>
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectGroup>
+                        <SelectItem value="Daily">Daily (Tactical)</SelectItem>
+                        <SelectItem value="Weekly">Weekly (Strategic)</SelectItem>
+                        <SelectItem value="Monthly">Monthly (Visionary)</SelectItem>
+                       
+                    </SelectGroup>
+                </SelectContent>
+            </Select>
           </div>
           <DialogFooter>
             <DialogClose asChild>
@@ -47,21 +66,6 @@ export function DialogDemo() {
         </DialogContent>
       </form>
     </Dialog>
-  )
-}
-
-
-export const TaskInputForm =() => {
-  return (
-    <Card className="border-0">
-        <CardHeader>
-            <CardTitle className="flex justify-between items-center">
-                <h1 className="font-bold">Edit Task</h1> <Button ><X/></Button>
-            </CardTitle>
-        </CardHeader>
-        <CardContent className="grid max-w-full max-h-full">
-            <InputItem  inputType="text" inputPlaceholder="eg:Buying milk" inputLabel="Title"/>
-        </CardContent>
-    </Card>
+      
   )
 }
