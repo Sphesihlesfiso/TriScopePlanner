@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const homeControler_1 = require("../controllers/homeControler");
+const dbQueries_1 = require("../middleware/dbQueries");
+const router = (0, express_1.Router)();
+router.get("/", dbQueries_1.queryFromDb);
+router.post("/task", homeControler_1.addUserTask);
+router.delete("/task/:id", (0, homeControler_1.deleteTaskById)("tasks"));
+router.put("/task/:id", homeControler_1.replaceTask);
+router.patch("/task/:id", homeControler_1.editTask);
+exports.default = router;

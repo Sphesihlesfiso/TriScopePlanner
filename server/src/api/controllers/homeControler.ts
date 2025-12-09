@@ -12,6 +12,7 @@ export const addUserTask =async (req:Request,res:Response) =>{
         res.status(201).json({
             message: "Task inserted successfully",
             data: { scope, tittle, description }})
+            console.log(req.body)
     }catch(error) {
         console.error(error);
         res.status(500).json({message:"Failed to put task into db."})

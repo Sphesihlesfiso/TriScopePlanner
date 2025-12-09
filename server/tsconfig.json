@@ -9,10 +9,11 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "ignoreDeprecations": "6.0",
+
     "baseUrl": "./src",
-        "paths": {
-        "@controllers/*": ["controllers/*"],
-        "@models/*": ["models/*"]
+    "paths": {
+      "@controllers/*": ["controllers/*"],
+      "@models/*": ["models/*"]
     }
   }
 }
