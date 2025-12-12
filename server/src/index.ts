@@ -9,8 +9,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 const port = parseInt(process.env.SERVER_PORT || "3000", 10);
-app.use("/api", apiRoutes);
-console.log("May run");
+app.use("/", apiRoutes);
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });

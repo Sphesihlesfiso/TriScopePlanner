@@ -32,28 +32,49 @@ import {
 type TaskDInputFormProps = {
   triggerButton: React.ReactNode;
   formType: string;
+  httpMethod :string;
+  endPoint:string;
 };
 
 export const TaskInputForm = ({
   triggerButton,
   formType,
+  httpMethod,
+  endPoint
 }: TaskDInputFormProps) => {
-  const [open, setOpen] = React.useState(false);
-  const [date, setDate] = React.useState<Date | undefined>(undefined);
-  const [start_time, setUserTime] = React.useState("");
-  const [tittle, setTaskTitle] = React.useState("");
-  const [description, setTaskDescription] = React.useState("");
   const today = new Date().toLocaleDateString();
-  const time = new Date().toLocaleTimeString().slice(0, 8);
+  const [open, setOpen] = React.useState(false);
+  const [date, setDate] = React.useState<Date>(new Date());
 
-  console.log(time, start_time);
+  const [start_time, setStartTime] = React.useState("09:00");
+  const [end_time, setEndTime] = React.useState("11:00");
+  const [tittle, setTaskTitle] = React.useState("");
+  const [scope, setScope] = React.useState("Daily");
+  const [description, setTaskDescription] = React.useState("");
 
-  const Submit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const response = await fetch("http://localhost:3000/api/task", {
-      method: "POST",
+  function ValidateForm(): void {
+    if (tittle === "") {
+      alert("Title cannot be empty");
+    } else if (description === "") {
+      alert("Description cannot be empty");
+    } else if (end_time <= start_time) {
+      alert("End time cannot be earlier or equal to start time");
+    }
+  }
+  
+  const Submit = async () => {
+    
+    const response = await fetch(`http://localhost:3000/${endPoint}`, {
+      method: httpMethod,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ tittle, description, date, start_time }),
+      body: JSON.stringify({
+        tittle,
+        description,
+        date,
+        scope,
+        start_time,
+        end_time,
+      }),
     });
     const data = await response.json();
     console.log("Server response:", data);
@@ -67,7 +88,7 @@ export const TaskInputForm = ({
         </DialogHeader>
         <form onSubmit={Submit}>
           <div className="grid grid-rows-4 gap-0.5 items-center w-full">
-            <div>
+            <div className="space-y-2">
               <Label htmlFor="title">Title</Label>
               <Input
                 type="text"
@@ -84,8 +105,8 @@ export const TaskInputForm = ({
                 onChange={(e) => setTaskDescription(e.target.value)}
               />
             </div>
-            <div className="flex gap-4 w-full ">
-              <div className="flex  flex-1 flex-col gap-2">
+            <div className="flex gap-2 w-full justify-between">
+              <div className="flex  flex-1/2 flex-col gap-2">
                 <Label htmlFor="description">Due Date</Label>
                 <Popover open={open} onOpenChange={setOpen}>
                   <PopoverTrigger asChild>
@@ -107,15 +128,17 @@ export const TaskInputForm = ({
                       selected={date}
                       hideNavigation={true}
                       disabled={(date) => date < new Date()}
-                      onSelect={(date) => {
-                        setDate(date);
-                        setOpen(false);
+                      onSelect={(d) => {
+                        if (d) {
+                          setDate(d);
+                          setOpen(false);
+                        }
                       }}
                     />
                   </PopoverContent>
                 </Popover>
               </div>
-              <div className="flex">
+              <div className="flex ">
                 <div className="flex gap-2">
                   <div className="flex flex-col gap-2 ">
                     <Label htmlFor="time-picker" className="px-1">
@@ -124,10 +147,9 @@ export const TaskInputForm = ({
                     <Input
                       type="time"
                       id="time-picker"
-                      step="1"
-                      // disabled={start_time < time}
-                      onChange={(e) => setUserTime(e.target.value)}
-                      defaultValue={time}
+                      value={start_time}
+                      onChange={(e) => setStartTime(e.target.value)}
+                      defaultValue={start_time}
                       className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
                     />
                   </div>
@@ -138,10 +160,8 @@ export const TaskInputForm = ({
                     <Input
                       type="time"
                       id="time-picker"
-                      step="1"
-                      // disabled={start_time < time}
-                      onChange={(e) => setUserTime(e.target.value)}
-                      defaultValue={time}
+                      defaultValue={end_time}
+                      onChange={(e) => setEndTime(e.target.value)}
                       className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
                     />
                   </div>
@@ -151,15 +171,15 @@ export const TaskInputForm = ({
 
             <div className="flex flex-col gap-2">
               <Label htmlFor="description">Scope</Label>
-              <Select>
+              <Select value={scope} onValueChange={(value) => setScope(value)}>
                 <SelectTrigger className="flex w-full">
                   <SelectValue placeholder="Daily(tactical)" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="Daily">Daily (tactical)</SelectItem>
-                    <SelectItem value="Weekly">Weekly (strategic)</SelectItem>
-                    <SelectItem value="Monthly">Monthly (visionary)</SelectItem>
+                    <SelectItem value="Daily">Daily</SelectItem>
+                    <SelectItem value="Weekly">Weekly</SelectItem>
+                    <SelectItem value="Monthly">Monthly</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
@@ -170,7 +190,17 @@ export const TaskInputForm = ({
               <Button variant="outline">Cancel</Button>
             </DialogClose>
             <DialogClose asChild>
-              <Button type="submit">
+              <Button
+                onClick={ValidateForm}
+                type={
+                  tittle === "" ||
+                  description === "" ||
+                  parseInt(end_time.split(":").join("")) <=
+                    parseInt(start_time.split(":").join(""))
+                    ? "button"
+                    : "submit"
+                }
+              >
                 {formType === "Edit Task" ? "Save changes" : "Create Task"}
               </Button>
             </DialogClose>

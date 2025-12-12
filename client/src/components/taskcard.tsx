@@ -33,8 +33,11 @@ export const TaskCard = ({ title, task, time }: TaskCardProps) => {
               <Button>
                 <Edit />
               </Button>
+              
             }
             formType="Edit Task"
+            httpMethod="PATCH"
+            endPoint="task/:id"
           />
           <Button>
             <Trash />

@@ -25,11 +25,12 @@ export const NavBar = () => {
             <TaskInputForm
               triggerButton={
                 <Button className="flex flex-row gap-1.5">
-                  {" "}
                   <PlusIcon /> New Task
                 </Button>
               }
               formType="Create New Task"
+              httpMethod="POST"
+              endPoint="task"
             ></TaskInputForm>
           </li>
           <li>

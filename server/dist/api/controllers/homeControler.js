@@ -4,12 +4,12 @@ exports.editTask = exports.replaceTask = exports.addUserTask = void 0;
 exports.deleteTaskById = deleteTaskById;
 const db_1 = require("../../config/db");
 const addUserTask = async (req, res) => {
-    const { scope, tittle, description } = req.body;
+    const { tittle, description, scope, start_time, end_time, date } = req.body;
     try {
-        const result = await db_1.dataBase.query("INSERT INTO tasks (scope,tittle,description,end_time) VALUES($1,$2,$3,$4)", [scope, tittle, description, 2]);
+        const result = await db_1.dataBase.query("INSERT INTO tasks (tittle,description,scope,start_time,end_time,date) VALUES($1,$2,$3,$4,$5,$6)", [tittle, description, scope, start_time, end_time, date]);
         res.status(201).json({
             message: "Task inserted successfully",
-            data: { scope, tittle, description }
+            data: { tittle, description, scope, start_time, end_time, date },
         });
         console.log(req.body);
     }
@@ -39,8 +39,7 @@ const editTask = async (req, res) => {
         const result = await db_1.dataBase.query(`UPDATE tasks SET scope=$1, tittle=$2, description=$3, start_time=$4,end_time=$5 WHERE task_id=${id}`, [scope, tittle, description, start_time, end_time]);
         res.json(result.rows);
     }
-    catch (error) {
-    }
+    catch (error) { }
 };
 exports.editTask = editTask;
 function deleteTaskById(tableName) {

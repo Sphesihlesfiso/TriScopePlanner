@@ -13,8 +13,7 @@ app.use((0, cors_1.default)());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.json());
 const port = parseInt(process.env.SERVER_PORT || "3000", 10);
-app.use("/api", routes_1.default);
-console.log("May run");
+app.use("/", routes_1.default);
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
