@@ -6,15 +6,29 @@ type TaskCardProps = {
   title: string;
   task: string;
   time: string;
+  id :number
 };
-export const TaskCard = ({ title, task, time }: TaskCardProps) => {
+export const TaskCard = ({ title, task, time ,id}: TaskCardProps) => {
+  
+  const DeleteTask= async()=>{
+
+      const response = await fetch(`http://localhost:3000/task/${id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    
+    }
+    
+  );
+  const data=response.json()
+  console.log(data)
+  }
   return (
     <div className="grid grid-rows-2 gap-3 border p-3 rounded-2xl">
       <ul className="flex justify-between gap-1.5">
         <li>
           <Checkbox />
         </li>
-        <li>{title}</li>
+        <li className="underline">{title}</li>
         <li>
           <ul className="flex gap-1 align-middle justify-center">
             <li>
@@ -35,11 +49,13 @@ export const TaskCard = ({ title, task, time }: TaskCardProps) => {
               </Button>
               
             }
+
             formType="Edit Task"
             httpMethod="PATCH"
-            endPoint="task/:id"
+            endPoint={`task/`+id}
           />
-          <Button>
+          
+          <Button onClick={DeleteTask}>
             <Trash />
           </Button>
         </div>

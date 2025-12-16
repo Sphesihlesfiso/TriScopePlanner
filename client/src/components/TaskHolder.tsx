@@ -46,6 +46,7 @@ export const TaskHolder = ({ scope, due}: TaskHolderProps) => {
         {userTasks.filter((task)=> task.scope==scope).map((task) => (
           <TaskCard
             key={task.task_id}
+            id= {task.task_id}
             title={task.tittle}
             task={task.description}
             time={task.start_time}

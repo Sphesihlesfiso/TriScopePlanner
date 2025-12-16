@@ -75,10 +75,26 @@ export const TaskInputForm = ({
         start_time,
         end_time,
       }),
+
     });
     const data = await response.json();
     console.log("Server response:", data);
   };
+
+
+  
+  const  EditTask =async ()=>{
+
+    const responce = await fetch(`http://localhost:3000`,{
+      method:"GET",
+      headers:{
+        "Content-Type": "application/json"}
+    }
+    );
+
+    return responce.json()
+  }
+ 
   return (
     <Dialog>
       <DialogTrigger asChild>{triggerButton}</DialogTrigger>
@@ -95,14 +111,16 @@ export const TaskInputForm = ({
                 placeholder="Enter task tittle..."
                 required={true}
                 onChange={(e) => setTaskTitle(e.target.value)}
+                value="sphesihle"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="description">Description</Label>
+              <Label htmlFor ="description">Description</Label>
               <Textarea
                 required={true}
                 placeholder="Enter task Description..."
                 onChange={(e) => setTaskDescription(e.target.value)}
+                value={description}
               />
             </div>
             <div className="flex gap-2 w-full justify-between">
