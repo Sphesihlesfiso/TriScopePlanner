@@ -2,7 +2,9 @@ import { Request, Response } from "express";
 import { dataBase } from "../../config/db";
 import { NextFunction } from "express";
 import bcrypt from "bcrypt";
-import { hash } from "crypto";
+import passport from "passport";
+import { Strategy } from "passport-local";
+
 const saltRounds = 10;
 
 export const addUserTask = async (req: Request, res: Response) => {
@@ -17,12 +19,13 @@ export const addUserTask = async (req: Request, res: Response) => {
       message: "Task inserted successfully",
       data: { tittle, description, scope, start_time, end_time, date },
     });
+
     console.log(req.body);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Failed to put task into db." });
   }
-};
+}; 
 export const replaceTask = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { scope, tittle, description, start_time, end_time } = req.body;
@@ -63,59 +66,14 @@ export function deleteTaskById(tableName: string) {
     }
   };
 }
-
-export const registerUser = async (req: Request, res: Response) => {
-  const { user_email, user_name, plain_user_password } = req.body;
-  console.log(req.body);
-  try {
-    const result = await dataBase.query(
-      "SELECT * FROM users WHERE user_email=$1",
-      [user_email]
-    );
-
-    if (result.rows.length == 0) {
-      try {
-        bcrypt.hash(
-          plain_user_password,
-          saltRounds,
-          async function (err, hash) {
-            // Store hash in your password DB.
-            if (!err) {
-              const results = await dataBase.query(
-                "INSERT INTO users (user_email, user_name, hashed_user_password) VALUES($1,$2,$3)",
-                [user_email, user_name, hash]
-              );
-              console.log(hash);
-              res.send(results);
-            }
-          }
-        );
-      } catch (error) {
-        console.error(error);
-        console.log("Failed to insert user into dataBase");
+export const addToGoogleCalender= async(req:Request,res:Response)=>{
+      res.send("Task add to google Calender")  
+      if (req.isAuthenticated()){
+        res.send({logedIn:true});
+      }else{
+        res.send({ logedIn: false });
       }
-    } else {
-      res.send("<p>Email is already registerd please log in!</p>");
-    }
-  } catch (error) {
-    console.error(error);
-    res.send("Failed to register user.");
-  }
-};
-export const loginUser = async (req: Request, res: Response) => {
-  const { user_email, user_password } = req.body;
-  try {
-    const result = await dataBase.query(
-      "SELECT * FROM users WHERE user_email=$1",
-      [user_email]
-    );
-    if (result.rows.length > 0) {
-      const user = result.rows[0];
-    } else {
-      res.send("Go to sign up.");
-    }
-  } catch (error) {
-    console.error(error);
-    console.log("Failed to login user.");
-  }
-};
+}
+
+
+
