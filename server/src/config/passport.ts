@@ -18,7 +18,7 @@ passport.use(
         bcrypt.compare(
           password,
           user.hashed_user_password,
-          function (err, result) {
+           (err, result)=> {
             // result == true
             if (result) {
               return cb(null, user);
@@ -32,7 +32,7 @@ passport.use(
       }
     } catch (error) {
       console.error(error);
-      return cb(error);
+      return cb("User not found.");
     }
   })
 );
