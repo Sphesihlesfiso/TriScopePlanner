@@ -32,15 +32,15 @@ import {
 type TaskDInputFormProps = {
   triggerButton: React.ReactNode;
   formType: string;
-  httpMethod :string;
-  endPoint:string;
+  httpMethod: string;
+  endPoint: string;
 };
 
 export const TaskInputForm = ({
   triggerButton,
   formType,
   httpMethod,
-  endPoint
+  endPoint,
 }: TaskDInputFormProps) => {
   const today = new Date().toLocaleDateString();
   const [open, setOpen] = React.useState(false);
@@ -61,9 +61,8 @@ export const TaskInputForm = ({
       alert("End time cannot be earlier or equal to start time");
     }
   }
-  
+
   const Submit = async () => {
-    
     const response = await fetch(`http://localhost:3000/${endPoint}`, {
       method: httpMethod,
       headers: { "Content-Type": "application/json" },
@@ -75,26 +74,23 @@ export const TaskInputForm = ({
         start_time,
         end_time,
       }),
-
     });
     const data = await response.json();
     console.log("Server response:", data);
   };
 
+  // const  EditTask =async ()=>{
 
-  
-  const  EditTask =async ()=>{
+  //   const responce = await fetch(`http://localhost:3000`,{
+  //     method:"GET",
+  //     headers:{
+  //       "Content-Type": "application/json"}
+  //   }
+  //   );
 
-    const responce = await fetch(`http://localhost:3000`,{
-      method:"GET",
-      headers:{
-        "Content-Type": "application/json"}
-    }
-    );
+  //   return responce.json()
+  // }
 
-    return responce.json()
-  }
- 
   return (
     <Dialog>
       <DialogTrigger asChild>{triggerButton}</DialogTrigger>
@@ -115,7 +111,7 @@ export const TaskInputForm = ({
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor ="description">Description</Label>
+              <Label htmlFor="description">Description</Label>
               <Textarea
                 required={true}
                 placeholder="Enter task Description..."

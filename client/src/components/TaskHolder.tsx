@@ -37,7 +37,7 @@ export const TaskHolder = ({ scope, due}: TaskHolderProps) => {
     loadTasks();
   });
   return (
-    <Card className="w-full  border rounded-2xl">
+    <Card className="w-full h-screen  border rounded-2xl">
       <CardHeader className="border-b">
         <CardTitle>{scope}</CardTitle>
         <CardDescription>{due}</CardDescription>
