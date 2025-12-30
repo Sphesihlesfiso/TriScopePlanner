@@ -6,7 +6,6 @@ const queryFromDb = async (req, res) => {
     try {
         const result = await db_1.dataBase.query(`SELECT * FROM tasks`);
         res.status(200).json(result.rows);
-        console.log(result.rows);
     }
     catch (error) {
         console.error(error);

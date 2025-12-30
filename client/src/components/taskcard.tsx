@@ -6,22 +6,27 @@ type TaskCardProps = {
   title: string;
   task: string;
   time: string;
-  id :number
+  id: number;
 };
-export const TaskCard = ({ title, task, time ,id}: TaskCardProps) => {
-  
-  const DeleteTask= async()=>{
-
-      const response = await fetch(`http://localhost:3000/task/${id}`, {
+export const TaskCard = ({ title, task, time, id }: TaskCardProps) => {
+  const DeleteTask = async () => {
+    const response = await fetch(`http://localhost:3000/task/${id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
-    
-    }
-    
-  );
-  const data=response.json()
-  console.log(data)
-  }
+    });
+    const data = response.json();
+    console.log(data);
+  };
+  const addToGoogleCalender = async () => {
+    const response = await fetch(
+      `http://localhost:3000/googlecalender/task/:${id}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    response.json();
+  };
   return (
     <div className="grid grid-rows-2 gap-3 border p-3 rounded-2xl">
       <ul className="flex justify-between gap-1.5">
@@ -38,7 +43,7 @@ export const TaskCard = ({ title, task, time ,id}: TaskCardProps) => {
           </ul>
         </li>
         <div className="flex align-middle gap-1">
-          <Button>
+          <Button onClick={addToGoogleCalender}>
             <Calendar />
           </Button>
 
@@ -47,14 +52,12 @@ export const TaskCard = ({ title, task, time ,id}: TaskCardProps) => {
               <Button>
                 <Edit />
               </Button>
-              
             }
-
             formType="Edit Task"
             httpMethod="PATCH"
-            endPoint={`task/`+id}
+            endPoint={`task/` + id}
           />
-          
+
           <Button onClick={DeleteTask}>
             <Trash />
           </Button>

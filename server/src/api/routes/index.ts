@@ -12,8 +12,8 @@ import { loginUser } from "../services/loginUser";
 const router = Router();
 router.post("/register", registerUser);
 router.post("/login", loginUser);
-router.post("googlecalender/task/:id",addToGoogleCalender)
-router.get("/", queryFromDb);
+router.post("/googlecalender/task/:id",addToGoogleCalender)
+router.get("/",queryFromDb);
 router.post("/task", addUserTask);
 router.delete("/task/:id", deleteTaskById("tasks"));
 router.put("/task/:id", replaceTask);

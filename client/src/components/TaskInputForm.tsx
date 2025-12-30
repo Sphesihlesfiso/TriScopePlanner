@@ -52,15 +52,15 @@ export const TaskInputForm = ({
   const [scope, setScope] = React.useState("Daily");
   const [description, setTaskDescription] = React.useState("");
 
-  // function ValidateForm(): void {
-  //   if (tittle === "") {
-  //     alert("Title cannot be empty");
-  //   } else if (description === "") {
-  //     alert("Description cannot be empty");
-  //   } else if (end_time <= start_time) {
-  //     alert("End time cannot be earlier or equal to start time");
-  //   }
-  // }
+  function ValidateForm(): void {
+    if (tittle === "") {
+      alert("Title cannot be empty");
+    } else if (description === "") {
+      alert("Description cannot be empty");
+    } else if (end_time <= start_time) {
+      alert("End time cannot be earlier or equal to start time");
+    }
+  }
 
   const Submit = async () => {
     const response = await fetch(`http://localhost:3000/${endPoint}`, {
@@ -206,16 +206,15 @@ export const TaskInputForm = ({
             </DialogClose>
             <DialogClose asChild>
               <Button
-                // onClick={ValidateForm}
-                // type={
-                //   tittle === "" ||
-                //   description === "" ||
-                //   parseInt(end_time.split(":").join("")) <=
-                //     parseInt(start_time.split(":").join(""))
-                //     ? "button"
-                //     : "submit"
-                // }
-                type="submit"
+                onClick={ValidateForm}
+                type={
+                  tittle === "" ||
+                  description === "" ||
+                  parseInt(end_time.split(":").join("")) <=
+                    parseInt(start_time.split(":").join(""))
+                    ? "button"
+                    : "submit"
+                }
               >
                 {formType === "Edit Task" ? "Save changes" : "Create Task"}
               </Button>

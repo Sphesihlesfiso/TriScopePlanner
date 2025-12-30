@@ -1,11 +1,6 @@
 import { Request, Response } from "express";
 import { dataBase } from "../../config/db";
 import { NextFunction } from "express";
-import bcrypt from "bcrypt";
-import passport from "passport";
-import { Strategy } from "passport-local";
-
-const saltRounds = 10;
 
 export const addUserTask = async (req: Request, res: Response) => {
   const { tittle, description, scope, start_time, end_time, date } = req.body;
@@ -25,7 +20,7 @@ export const addUserTask = async (req: Request, res: Response) => {
     console.error(error);
     res.status(500).json({ message: "Failed to put task into db." });
   }
-}; 
+};
 export const replaceTask = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { scope, tittle, description, start_time, end_time } = req.body;
@@ -66,14 +61,13 @@ export function deleteTaskById(tableName: string) {
     }
   };
 }
-export const addToGoogleCalender= async(req:Request,res:Response)=>{
-      res.send("Task add to google Calender")  
-      if (req.isAuthenticated()){
-        res.send({logedIn:true});
-      }else{
-        res.send({ logedIn: false });
-      }
-}
-
-
-
+export const addToGoogleCalender = async (req: Request, res: Response) => {
+  console.log("Task add to google Calender");
+  if (req.isAuthenticated()) {
+    res.send({ logedIn: true });
+    console.log(" Calender");
+  } else {
+    res.send({ logedIn: false });
+    console.log("Task");
+  }
+};

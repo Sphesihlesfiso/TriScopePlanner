@@ -7,6 +7,7 @@ exports.loginUser = void 0;
 const passport_1 = __importDefault(require("config/passport"));
 const loginUser = (req, res, next) => {
     passport_1.default.authenticate("local", (err, user, info) => {
+        console.log("Inside login");
         if (err) {
             return next(err); // Pass errors to Express error handler
         }
@@ -17,6 +18,7 @@ const loginUser = (req, res, next) => {
             if (err) {
                 return next(err);
             }
+            console.log(user);
             return res.json({ message: "Login successful", user });
         });
     })(req, res, next);

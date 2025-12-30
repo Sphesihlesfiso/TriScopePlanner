@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.addToGoogleCalender = exports.editTask = exports.replaceTask = exports.addUserTask = void 0;
 exports.deleteTaskById = deleteTaskById;
 const db_1 = require("../../config/db");
-const saltRounds = 10;
 const addUserTask = async (req, res) => {
     const { tittle, description, scope, start_time, end_time, date } = req.body;
     try {
@@ -58,7 +57,7 @@ function deleteTaskById(tableName) {
     };
 }
 const addToGoogleCalender = async (req, res) => {
-    res.send("Task add to google Calender");
+    console.log("Task add to google Calender");
     if (req.isAuthenticated()) {
         res.send({ logedIn: true });
     }
