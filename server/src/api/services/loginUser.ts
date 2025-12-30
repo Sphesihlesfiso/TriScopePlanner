@@ -1,13 +1,12 @@
 import { Request, Response } from "express";
 
+import passport from "config/passport";
 
-
-import passport from "config/passport"
-
-import {  NextFunction } from "express";
+import { NextFunction } from "express";
 
 export const loginUser = (req: Request, res: Response, next: NextFunction) => {
-  passport.authenticate("local", (err:any, user:any, info:any) => {
+  passport.authenticate("local", (err: any, user: any, info: any) => {
+    console.log("Inside login");
     if (err) {
       return next(err); // Pass errors to Express error handler
     }
@@ -18,14 +17,15 @@ export const loginUser = (req: Request, res: Response, next: NextFunction) => {
       if (err) {
         return next(err);
       }
+      console.log(user);
       return res.json({ message: "Login successful", user });
     });
   })(req, res, next);
 };
 
-passport.serializeUser((user,cb)=>{
-    cb(null,user)
-})
-passport.deserializeUser((user :any,cb)=>{
-    cb(null,user)
-})
+passport.serializeUser((user, cb) => {
+  cb(null, user);
+});
+passport.deserializeUser((user: any, cb) => {
+  cb(null, user);
+});

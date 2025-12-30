@@ -14,19 +14,33 @@ import { useState } from "react";
 
 export const LoginSignIn = () => {
   const [signUp, setSignUp] = useState(false);
-  const [username, setUsername] = useState("");
-  const [password, setpassword] = useState("");
+  const [user_name, setUsername] = useState("");
+  const [plain_user_password, setpassword] = useState("");
+  const [user_email, setEmail] = useState("");
   const Submit = async () => {
-    const response = await fetch(`http://localhost:3000/login`, {
+    const username = user_email;
+    const password = plain_user_password;
+    const endPoint = !signUp ? "login" : "register";
+    console.log(endPoint);
+    const response = await fetch(`http://localhost:3000/${endPoint}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username,
-        password,
-      }),
+      body: JSON.stringify(
+        signUp
+          ? {
+              user_name,
+              plain_user_password,
+              user_email,
+            }
+          : {
+              username,
+              password,
+            }
+      ),
     });
     const data = await response.json();
     console.log("Server response:", data);
+    console.log("user", username, password);
   };
   return (
     <Card className="w-full max-w-md">
@@ -53,6 +67,7 @@ export const LoginSignIn = () => {
                 type="email"
                 placeholder="m@example.com"
                 required
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             {signUp && (

@@ -52,15 +52,15 @@ export const TaskInputForm = ({
   const [scope, setScope] = React.useState("Daily");
   const [description, setTaskDescription] = React.useState("");
 
-  function ValidateForm(): void {
-    if (tittle === "") {
-      alert("Title cannot be empty");
-    } else if (description === "") {
-      alert("Description cannot be empty");
-    } else if (end_time <= start_time) {
-      alert("End time cannot be earlier or equal to start time");
-    }
-  }
+  // function ValidateForm(): void {
+  //   if (tittle === "") {
+  //     alert("Title cannot be empty");
+  //   } else if (description === "") {
+  //     alert("Description cannot be empty");
+  //   } else if (end_time <= start_time) {
+  //     alert("End time cannot be earlier or equal to start time");
+  //   }
+  // }
 
   const Submit = async () => {
     const response = await fetch(`http://localhost:3000/${endPoint}`, {
@@ -105,15 +105,15 @@ export const TaskInputForm = ({
               <Input
                 type="text"
                 placeholder="Enter task tittle..."
-                required={true}
+                required
                 onChange={(e) => setTaskTitle(e.target.value)}
-                value="sphesihle"
+                value={tittle}
               />
             </div>
             <div className="space-y-2">
               <Label htmlFor="description">Description</Label>
               <Textarea
-                required={true}
+                required
                 placeholder="Enter task Description..."
                 onChange={(e) => setTaskDescription(e.target.value)}
                 value={description}
@@ -164,6 +164,7 @@ export const TaskInputForm = ({
                       value={start_time}
                       onChange={(e) => setStartTime(e.target.value)}
                       defaultValue={start_time}
+                      required
                       className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
                     />
                   </div>
@@ -205,15 +206,16 @@ export const TaskInputForm = ({
             </DialogClose>
             <DialogClose asChild>
               <Button
-                onClick={ValidateForm}
-                type={
-                  tittle === "" ||
-                  description === "" ||
-                  parseInt(end_time.split(":").join("")) <=
-                    parseInt(start_time.split(":").join(""))
-                    ? "button"
-                    : "submit"
-                }
+                // onClick={ValidateForm}
+                // type={
+                //   tittle === "" ||
+                //   description === "" ||
+                //   parseInt(end_time.split(":").join("")) <=
+                //     parseInt(start_time.split(":").join(""))
+                //     ? "button"
+                //     : "submit"
+                // }
+                type="submit"
               >
                 {formType === "Edit Task" ? "Save changes" : "Create Task"}
               </Button>
