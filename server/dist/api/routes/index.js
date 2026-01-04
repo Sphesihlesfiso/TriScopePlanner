@@ -8,7 +8,7 @@ const loginUser_1 = require("../services/loginUser");
 const router = (0, express_1.Router)();
 router.post("/register", registerUser_1.registerUser);
 router.post("/login", loginUser_1.loginUser);
-router.post("googlecalender/task/:id", homeControler_1.addToGoogleCalender);
+router.post("/googlecalender/task/:id", homeControler_1.addToGoogleCalender);
 router.get("/", dbQueries_1.queryFromDb);
 router.post("/task", homeControler_1.addUserTask);
 router.delete("/task/:id", (0, homeControler_1.deleteTaskById)("tasks"));

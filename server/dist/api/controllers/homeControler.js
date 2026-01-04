@@ -60,9 +60,11 @@ const addToGoogleCalender = async (req, res) => {
     console.log("Task add to google Calender");
     if (req.isAuthenticated()) {
         res.send({ logedIn: true });
+        console.log(" Calender");
     }
     else {
         res.send({ logedIn: false });
+        console.log("Task");
     }
 };
 exports.addToGoogleCalender = addToGoogleCalender;

@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
+
 import { dataBase } from "./db";
 import bcrypt from "bcrypt";
 import passport from "passport";
 import { Strategy } from "passport-local";
-import session  from "express-session";
+
 
 passport.use(
   new Strategy(async function verify(username, password, cb) {

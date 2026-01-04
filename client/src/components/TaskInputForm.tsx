@@ -41,6 +41,7 @@ export const TaskInputForm = ({
   formType,
   httpMethod,
   endPoint,
+  
 }: TaskDInputFormProps) => {
   const today = new Date().toLocaleDateString();
   const [open, setOpen] = React.useState(false);
@@ -51,6 +52,7 @@ export const TaskInputForm = ({
   const [tittle, setTaskTitle] = React.useState("");
   const [scope, setScope] = React.useState("Daily");
   const [description, setTaskDescription] = React.useState("");
+
 
   function ValidateForm(): void {
     if (tittle === "") {

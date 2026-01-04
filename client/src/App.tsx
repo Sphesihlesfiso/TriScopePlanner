@@ -1,32 +1,36 @@
 import { ThemeProvider } from "./components/theme-provider";
 import { Home } from "./pages/Home";
-import { LoginSignIn } from './pages/LoginSignIn';
-export const App=()=> {
-  
-  const addToGoogleCalender = async () => {
-    const response = await fetch(
-      `http://localhost:3000/googlecalender/task/:1`,
-      {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      }
-    );
-    console.log(response.json());
-
+import { LoginSignIn } from "./pages/LoginSignIn";
+import { useEffect, useState } from "react";
+export const App = () => {
+  const [user, setUser] = useState("");
+  const {user_id}=user
+  const loginUser = async () => {
+    const responce = await fetch(`http://localhost:3000/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username: "test", password: "1234" }),
+    });
+    return responce.json();
   };
-  const isIn=addToGoogleCalender()
+  useEffect(() => {
+    const loadUser = async () => {
+      const user = await loginUser();
+      setUser(user);
+    };
+    loadUser();
+  },[]);
+  console.log(`This is the user ${user_id}`);
   return (
     <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-      {!isIn && (
+      {(
         <div className="flex items-center justify-center h-screen ">
           <LoginSignIn />
         </div>
       )}
-      {isIn && 
-        <Home />
-        }
+      {user.length > 0 && <Home />}
     </ThemeProvider>
   );
-}
-
-
+};
