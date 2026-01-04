@@ -9,6 +9,7 @@ import {
 import { queryFromDb } from "../middleware/dbQueries";
 import { registerUser } from "../services/registerUser";
 import { loginUser } from "../services/loginUser";
+import { logOut } from "../services/LogoutUser";
 const router = Router();
 router.post("/register", registerUser);
 router.post("/login", loginUser);
@@ -18,5 +19,6 @@ router.post("/task", addUserTask);
 router.delete("/task/:id", deleteTaskById("tasks"));
 router.put("/task/:id", replaceTask);
 router.patch("/task/:id", editTask);
+router.post("/logout",logOut)
 
 export default router;

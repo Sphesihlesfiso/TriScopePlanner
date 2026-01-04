@@ -25,6 +25,7 @@ export const TaskCard = ({ title, task, time, id }: TaskCardProps) => {
         headers: { "Content-Type": "application/json" },
       }
     );
+    
     response.json();
   };
   return (

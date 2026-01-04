@@ -2,7 +2,18 @@ import { Target, PlusIcon, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
 import { TaskInputForm } from "@/components/TaskInputForm";
+
 export const NavBar = () => {
+  const logOutUser = async () => {
+    const response = await fetch(`http://localhost:3000/logout`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    response.json();
+  };
+
   return (
     <nav className="sticky p-3.5 border">
       <div className="flex align-middle justify-between">
@@ -38,7 +49,7 @@ export const NavBar = () => {
           </li>
           <li>
             <Button type="button">
-              <LogOut />
+              <LogOut onClick={logOutUser} />
             </Button>
           </li>
         </ul>

@@ -3,8 +3,8 @@ import { Home } from "./pages/Home";
 import { LoginSignIn } from "./pages/LoginSignIn";
 import { useEffect, useState } from "react";
 export const App = () => {
-  const [user, setUser] = useState("");
-  const {user_id}=user
+  const [user, setUser] = useState(null);
+  
   const loginUser = async () => {
     const responce = await fetch(`http://localhost:3000/login`, {
       method: "POST",
@@ -22,15 +22,15 @@ export const App = () => {
     };
     loadUser();
   },[]);
-  console.log(`This is the user ${user_id}`);
+  console.log(`This is the user ${user}`);
   return (
     <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-      {(
+      {!user&&(
         <div className="flex items-center justify-center h-screen ">
           <LoginSignIn />
         </div>
       )}
-      {user.length > 0 && <Home />}
+      {user && <Home />}
     </ThemeProvider>
   );
 };
