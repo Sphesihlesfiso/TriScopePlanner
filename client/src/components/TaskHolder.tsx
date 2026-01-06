@@ -21,6 +21,7 @@ export const TaskHolder = ({ scope, due}: TaskHolderProps) => {
     start_time: string;
     tittle: string;
     scope: string;
+    end_time:string
   }
   async function fetchData(): Promise<Task[]> {
     const responce = await fetch("http://localhost:3000");
@@ -49,7 +50,8 @@ export const TaskHolder = ({ scope, due}: TaskHolderProps) => {
             id= {task.task_id}
             title={task.tittle}
             task={task.description}
-            time={task.start_time}
+            start_time={task.start_time}
+            end_time={task.end_time}
           />
         ))}
       </CardContent>

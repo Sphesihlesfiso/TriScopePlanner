@@ -1,14 +1,16 @@
-import { Trash, Edit, Calendar, Clock } from "lucide-react";
+import { Trash, Edit, Calendar, Clock, CheckSquare } from "lucide-react";
 import { Button } from "./ui/button";
-import { Checkbox } from "./ui/checkbox";
+// import { Checkbox } from "./ui/checkbox";
 import { TaskInputForm } from "./TaskInputForm";
+
 type TaskCardProps = {
   title: string;
   task: string;
-  time: string;
+  start_time: string;
+  end_time:string
   id: number;
 };
-export const TaskCard = ({ title, task, time, id }: TaskCardProps) => {
+export const TaskCard = ({ title, task, start_time,end_time,id }: TaskCardProps) => {
   const DeleteTask = async () => {
     const response = await fetch(`http://localhost:3000/task/${id}`, {
       method: "DELETE",
@@ -34,13 +36,19 @@ export const TaskCard = ({ title, task, time, id }: TaskCardProps) => {
         {/* <li>
           <Checkbox />
         </li> */}
-        <li >{title}</li>
+        <li>{title}</li>
         <li>
           <ul className="flex gap-1 align-middle justify-center">
             <li>
               <Clock />
             </li>
-            <li>{time}</li>
+            <li>
+              <p>{start_time}</p>
+            </li>
+            -
+            <li >
+              <p>{end_time}</p>
+            </li>
           </ul>
         </li>
         <div className="flex align-middle gap-1">
