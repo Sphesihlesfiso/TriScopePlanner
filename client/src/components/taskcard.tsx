@@ -25,16 +25,16 @@ export const TaskCard = ({ title, task, time, id }: TaskCardProps) => {
         headers: { "Content-Type": "application/json" },
       }
     );
-    
+
     response.json();
   };
   return (
     <div className="grid grid-rows-2 gap-3 border p-3 rounded-2xl">
       <ul className="flex justify-between gap-1.5">
-        <li>
+        {/* <li>
           <Checkbox />
-        </li>
-        <li className="underline">{title}</li>
+        </li> */}
+        <li >{title}</li>
         <li>
           <ul className="flex gap-1 align-middle justify-center">
             <li>
