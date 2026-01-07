@@ -3,18 +3,25 @@ import { Button } from "./ui/button";
 // import { Checkbox } from "./ui/checkbox";
 import { TaskInputForm } from "./TaskInputForm";
 
+import { EditTask } from "./TaskInputForm";
 type TaskCardProps = {
   title: string;
   task: string;
   start_time: string;
-  end_time:string
+  end_time: string;
   id: number;
 };
-const a=["sssdfeeef","sphe","zane"]
-const search="z"
-const b=a.filter((w)=>w.includes(search))
-console.log(b)
-export const TaskCard = ({ title, task, start_time,end_time,id }: TaskCardProps) => {
+// const a=["sssdfeeef","sphe","zane"]
+// const search="z"
+// const b=a.filter((w)=>w.includes(search))
+// console.log(b)
+export const TaskCard = ({
+  title,
+  task,
+  start_time,
+  end_time,
+  id,
+}: TaskCardProps) => {
   const DeleteTask = async () => {
     const response = await fetch(`http://localhost:3000/task/${id}`, {
       method: "DELETE",
@@ -34,6 +41,9 @@ export const TaskCard = ({ title, task, start_time,end_time,id }: TaskCardProps)
 
     response.json();
   };
+
+ 
+
   return (
     <div className="grid grid-rows-2 p-3 md:gap-3 border rounded-2xl ">
       <ul className="flex justify-between gap-1.5">
@@ -50,7 +60,7 @@ export const TaskCard = ({ title, task, start_time,end_time,id }: TaskCardProps)
               <p>{start_time}</p>
             </li>
             -
-            <li >
+            <li>
               <p>{end_time}</p>
             </li>
           </ul>
@@ -62,13 +72,13 @@ export const TaskCard = ({ title, task, start_time,end_time,id }: TaskCardProps)
 
           <TaskInputForm
             triggerButton={
-              <Button>
+              <Button onClick={EditTask}>
                 <Edit />
               </Button>
             }
             formType="Edit Task"
             httpMethod="PATCH"
-            endPoint={`task/` + id}
+            endPoint={`task/:${id}`}
           />
 
           <Button onClick={DeleteTask}>

@@ -35,6 +35,17 @@ type TaskDInputFormProps = {
   httpMethod: string;
   endPoint: string;
 };
+export  const EditTask = async () => {
+  const responce = await fetch(`http://localhost:3000/task/:`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({}),
+  });
+
+  return responce.json();
+};
 
 export const TaskInputForm = ({
   triggerButton,
@@ -63,7 +74,7 @@ export const TaskInputForm = ({
       alert("End time cannot be earlier or equal to start time");
     }
   }
-
+ 
   const Submit = async () => {
     const response = await fetch(`http://localhost:3000/${endPoint}`, {
       method: httpMethod,
@@ -81,18 +92,7 @@ export const TaskInputForm = ({
     console.log("Server response:", data);
   };
 
-  // const  EditTask =async ()=>{
-
-  //   const responce = await fetch(`http://localhost:3000`,{
-  //     method:"GET",
-  //     headers:{
-  //       "Content-Type": "application/json"}
-  //   }
-  //   );
-
-  //   return responce.json()
-  // }
-
+ 
   return (
     <Dialog>
       <DialogTrigger asChild>{triggerButton}</DialogTrigger>

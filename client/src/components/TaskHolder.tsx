@@ -7,23 +7,24 @@ import {
 } from "./ui/card";
 import { TaskCard } from "./taskcard";
 import { useEffect,useState } from "react";
-type TaskHolderProps = {
+interface TaskHolderProps  {
   scope: string;
   due: string;
   
 };
+export  interface Task {
+   task_id: number;
+   title: string;
+   description: string;
+   start_time: string;
+   tittle: string;
+   scope: string;
+   end_time: string;
+ }
 
 export const TaskHolder = ({ scope, due}: TaskHolderProps) => {
-  interface Task {
-    task_id: number;
-    title: string;
-    description: string;
-    start_time: string;
-    tittle: string;
-    scope: string;
-    end_time:string
-  }
-  async function fetchData(): Promise<Task[]> {
+ 
+  const  fetchData= async(): Promise<Task[]> => {
     const responce = await fetch("http://localhost:3000");
     return await responce.json();
   }
@@ -32,7 +33,7 @@ export const TaskHolder = ({ scope, due}: TaskHolderProps) => {
 
   useEffect(() => {
     const loadTasks = async () => {
-      const data = await fetchData(); // ✅ await inside async function
+      const data = await fetchData();
       setUserTasks(data);
     };
     loadTasks();

@@ -37,6 +37,7 @@ export const replaceTask = async (req: Request, res: Response) => {
 };
 export const editTask = async (req: Request, res: Response) => {
   const { id } = req.params;
+  console.log("Pressed");
   const { scope, tittle, description, start_time, end_time } = req.body;
   try {
     const result = await dataBase.query(
