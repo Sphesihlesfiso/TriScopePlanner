@@ -1,10 +1,10 @@
 import { ThemeProvider } from "./components/theme-provider";
 import { Home } from "./pages/Home";
-// import { LoginSignIn } from "./pages/LoginSignIn";
+import { LoginSignIn } from "./pages/LoginSignIn";
 import { useEffect, useState } from "react";
 export const App = () => {
   const [user, setUser] = useState(null);
-
+  
   const loginUser = async () => {
     const responce = await fetch(`http://localhost:3000/login`, {
       method: "POST",
@@ -21,16 +21,16 @@ export const App = () => {
       setUser(user);
     };
     loadUser();
-  }, []);
+  },[]);
   console.log(`This is the user ${user}`);
   return (
     <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-      {/* {!user&&(
+      {!user&&(
         <div className="flex items-center justify-center h-screen ">
           <LoginSignIn />
         </div>
-      )} */}
-      {<Home />}
+      )}
+      {user && <Home />}
     </ThemeProvider>
   );
 };

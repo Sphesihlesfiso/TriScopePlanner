@@ -54,20 +54,8 @@ export const TaskHolder = ({ scope, due}: TaskHolderProps) => {
             start_time={task.start_time}
             end_time={task.end_time}
           />
-          
         ))}
-         {/* <TaskCard
-            key="1"
-            id={2}
-            title="Hi"
-            task="there"
-            start_time="2:00"
-            end_time="3:00"
-          /> */}
-          
-        
       </CardContent>
-
     </Card>
   );
 };

@@ -1,4 +1,4 @@
-import { Trash, Edit, Clock, CheckSquare } from "lucide-react";
+import { Trash, Edit, Calendar, Clock, CheckSquare } from "lucide-react";
 import { Button } from "./ui/button";
 // import { Checkbox } from "./ui/checkbox";
 import { TaskInputForm } from "./TaskInputForm";
@@ -11,17 +11,11 @@ type TaskCardProps = {
   end_time: string;
   id: number;
 };
-// const a=["sssdfeeef","sphe","zane"]
-// const search="z"
-// const b=a.filter((w)=>w.includes(search))
-// console.log(b)
-export const TaskCard = ({
-  title,
-  task,
-  start_time,
-  end_time,
-  id,
-}: TaskCardProps) => {
+const a=["sssdfeeef","sphe","zane"]
+const search="z"
+const b=a.filter((w)=>w.includes(search))
+console.log(b)
+export const TaskCard = ({ title, task, start_time,end_time,id }: TaskCardProps) => {
   const DeleteTask = async () => {
     const response = await fetch(`http://localhost:3000/task/${id}`, {
       method: "DELETE",
@@ -45,7 +39,7 @@ export const TaskCard = ({
  
 
   return (
-    <div className="grid grid-rows-2 p-3 md:gap-3 border rounded-2xl ">
+    <div className="grid grid-rows-2 gap-3 border p-3 rounded-2xl">
       <ul className="flex justify-between gap-1.5">
         {/* <li>
           <Checkbox />
@@ -67,7 +61,7 @@ export const TaskCard = ({
         </li>
         <div className="flex align-middle gap-1">
           <Button onClick={addToGoogleCalender}>
-            <CheckSquare />
+            <Calendar />
           </Button>
 
           <TaskInputForm
