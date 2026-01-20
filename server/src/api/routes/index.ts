@@ -4,7 +4,7 @@ import {
   replaceTask,
   deleteTaskById,
   editTask,
-  addToGoogleCalender
+  addToGoogleCalender,
 } from "../controllers/homeControler";
 import { queryFromDb } from "../middleware/dbQueries";
 import { registerUser } from "../services/registerUser";
@@ -13,12 +13,13 @@ import { logOut } from "../services/LogoutUser";
 const router = Router();
 router.post("/register", registerUser);
 router.post("/login", loginUser);
-router.post("/googlecalender/task/:id",addToGoogleCalender)
-router.get("/",queryFromDb);
+router.post("/googlecalender/task/:id", addToGoogleCalender);
+
+router.get("/", queryFromDb);
 router.post("/task", addUserTask);
 router.delete("/task/:id", deleteTaskById("tasks"));
 router.put("/task/:id", replaceTask);
 router.patch("/task/:id", editTask);
-router.post("/logout",logOut)
+router.post("/logout", logOut);
 
 export default router;

@@ -17,15 +17,16 @@ export const loginUser = (req: Request, res: Response, next: NextFunction) => {
       if (err) {
         return next(err);
       }
-      console.log(user);
+
       return res.json({ message: "Login successful", user });
     });
   })(req, res, next);
 };
 
-passport.serializeUser((user, cb) => {
-  cb(null, user);
+passport.serializeUser((user: any, cb) => {
+  cb(null, user); // or user._id
 });
+
 passport.deserializeUser((user: any, cb) => {
   cb(null, user);
 });
