@@ -64,7 +64,6 @@ export function deleteTaskById(tableName: string) {
 }
 export const addToGoogleCalender = async (req: Request, res: Response) => {
   console.log("Task add to google Calender");
-  // console.log(req);
   if (req.isAuthenticated()) {
     res.send({ logedIn: true });
     console.log(" Calender");

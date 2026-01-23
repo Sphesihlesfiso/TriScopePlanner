@@ -3,8 +3,8 @@ import express from "express";
 import apiRoutes from "./api/routes";
 import dotenv from "dotenv";
 import cors from "cors";
-import session from "express-session";
-import passport from "./config/passport";
+import session  from "express-session";
+import passport  from "./config/passport"
 dotenv.config();
 const app = express();
 app.use(
@@ -16,17 +16,10 @@ app.use(
   })
 );
 app.use(passport.initialize());
-app.use(passport.session());
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  })
-);
-
+app.use(passport.session())
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use("/", apiRoutes);
-
 export default app;
