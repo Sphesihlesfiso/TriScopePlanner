@@ -6,6 +6,7 @@ import { InputGroupAddon, InputGroupInput,InputGroup } from "@/components/ui/inp
 export const NavBar = () => {
   const logOutUser = async () => {
     const response = await fetch(`http://localhost:3000/logout`, {
+      credentials: "include",
       method: "POST",
       headers: {
         "Content-Type": "application/json",

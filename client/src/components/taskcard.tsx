@@ -1,4 +1,4 @@
-import { Trash, Edit, Calendar, Clock, CheckSquare } from "lucide-react";
+import { Trash, Edit, Calendar, Clock} from "lucide-react";
 import { Button } from "./ui/button";
 // import { Checkbox } from "./ui/checkbox";
 import { TaskInputForm } from "./TaskInputForm";
@@ -30,20 +30,15 @@ export const TaskCard = ({ title, task, start_time,end_time,id }: TaskCardProps)
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-      }
+      },
     );
 
     response.json();
   };
 
- 
-
   return (
-    <div className="grid grid-rows-2 gap-3 border p-3 rounded-2xl">
+    <div className="mb-2 grid grid-rows-2 gap-3 border p-3 rounded-2xl">
       <ul className="flex justify-between gap-1.5">
-        {/* <li>
-          <Checkbox />
-        </li> */}
         <li>{title}</li>
         <li>
           <ul className="flex gap-1 align-middle justify-center">
@@ -73,6 +68,7 @@ export const TaskCard = ({ title, task, start_time,end_time,id }: TaskCardProps)
             formType="Edit Task"
             httpMethod="PATCH"
             endPoint={`task/:${id}`}
+            form_id={id}
           />
 
           <Button onClick={DeleteTask}>

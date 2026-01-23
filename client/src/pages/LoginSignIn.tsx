@@ -11,18 +11,21 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const LoginSignIn = () => {
   const [signUp, setSignUp] = useState(false);
   const [user_name, setUsername] = useState("");
   const [plain_user_password, setpassword] = useState("");
   const [user_email, setEmail] = useState("");
-  const Submit = async () => {
+  const navigate = useNavigate();
+  const Submit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const username = user_email;
     const password = plain_user_password;
     const endPoint = !signUp ? "login" : "register";
-    console.log(endPoint);
     const response = await fetch(`http://localhost:3000/${endPoint}`, {
+      credentials: "include",
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(
@@ -38,9 +41,16 @@ export const LoginSignIn = () => {
             }
       ),
     });
-    const data = await response.json();
-    console.log("Server response:", data);
-    console.log("user", username, password);
+    if (response.ok) {
+      await fetch(`http://localhost:3000/`, {
+        credentials: "include",
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(response),
+      });
+      navigate("/");
+    } 
+    
   };
   return (
     <Card className="w-full max-w-md">
@@ -101,7 +111,7 @@ export const LoginSignIn = () => {
             </div>
           </div>
         </CardContent>
-        <CardFooter className="flex-col gap-2">
+        <CardFooter className="flex-col mt-3 gap-2">
           <Button type="submit" className="w-full">
             {signUp ? "Sign up" : "Login"}
           </Button>
