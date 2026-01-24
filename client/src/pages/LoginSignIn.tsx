@@ -10,18 +10,21 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const LoginSignIn = () => {
   const [signUp, setSignUp] = useState(false);
   const [user_name, setUsername] = useState("");
   const [plain_user_password, setpassword] = useState("");
   const [user_email, setEmail] = useState("");
-  const Submit = async () => {
+  const navigate = useNavigate();
+  const Submit = async (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
     const username = user_email;
     const password = plain_user_password;
     const endPoint = !signUp ? "login" : "register";
-    console.log(endPoint);
+   
     const response = await fetch(`http://localhost:3000/${endPoint}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -35,12 +38,13 @@ export const LoginSignIn = () => {
           : {
               username,
               password,
-            }
+            },
       ),
     });
-    const data = await response.json();
-    console.log("Server response:", data);
-    console.log("user", username, password);
+   
+    if (response.ok) {
+      navigate("/");
+    }
   };
   return (
     <Card className="w-full max-w-md">
@@ -59,8 +63,8 @@ export const LoginSignIn = () => {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col gap-6">
-            <div className="grid gap-2">
+          <div className="flex flex-col gap-3">
+            <div className="grid gap-1">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
@@ -82,7 +86,7 @@ export const LoginSignIn = () => {
                 />
               </div>
             )}
-            <div className="grid gap-2">
+            <div className="flex flex-col gap-2">
               <div className="flex items-center">
                 <Label htmlFor="password">Password</Label>
                 <a
@@ -92,16 +96,18 @@ export const LoginSignIn = () => {
                   Forgot your password?
                 </a>
               </div>
-              <Input
-                id="password"
-                type="password"
-                required
-                onChange={(e) => setpassword(e.target.value)}
-              />
+              <div className="mb-2">
+                <Input
+                  id="password"
+                  type="password"
+                  required
+                  onChange={(e) => setpassword(e.target.value)}
+                />
+              </div>
             </div>
           </div>
         </CardContent>
-        <CardFooter className="flex-col gap-2">
+        <CardFooter className="flex-col gap-2 ">
           <Button type="submit" className="w-full">
             {signUp ? "Sign up" : "Login"}
           </Button>

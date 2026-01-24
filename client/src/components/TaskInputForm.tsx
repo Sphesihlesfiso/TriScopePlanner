@@ -35,7 +35,7 @@ type TaskDInputFormProps = {
   httpMethod: string;
   endPoint: string;
 };
-export  const EditTask = async () => {
+export const EditTask = async () => {
   const responce = await fetch(`http://localhost:3000/task/:`, {
     method: "PATCH",
     headers: {
@@ -52,7 +52,6 @@ export const TaskInputForm = ({
   formType,
   httpMethod,
   endPoint,
-  
 }: TaskDInputFormProps) => {
   const today = new Date().toLocaleDateString();
   const [open, setOpen] = React.useState(false);
@@ -63,7 +62,7 @@ export const TaskInputForm = ({
   const [tittle, setTaskTitle] = React.useState("");
   const [scope, setScope] = React.useState("Daily");
   const [description, setTaskDescription] = React.useState("");
-
+  
 
   function ValidateForm(): void {
     if (tittle === "") {
@@ -74,7 +73,7 @@ export const TaskInputForm = ({
       alert("End time cannot be earlier or equal to start time");
     }
   }
- 
+
   const Submit = async () => {
     const response = await fetch(`http://localhost:3000/${endPoint}`, {
       method: httpMethod,
@@ -88,11 +87,10 @@ export const TaskInputForm = ({
         end_time,
       }),
     });
-    const data = await response.json();
-    console.log("Server response:", data);
+    response.json();
+  
   };
 
- 
   return (
     <Dialog>
       <DialogTrigger asChild>{triggerButton}</DialogTrigger>

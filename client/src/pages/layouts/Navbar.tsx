@@ -2,7 +2,11 @@ import { Target, PlusIcon, LogOut, SearchIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
 import { TaskInputForm } from "@/components/TaskInputForm";
-import { InputGroupAddon, InputGroupInput,InputGroup } from "@/components/ui/input-group";
+import {
+  InputGroupAddon,
+  InputGroupInput,
+  InputGroup,
+} from "@/components/ui/input-group";
 export const NavBar = () => {
   const logOutUser = async () => {
     const response = await fetch(`http://localhost:3000/logout`, {
@@ -40,7 +44,7 @@ export const NavBar = () => {
           <li>
             <TaskInputForm
               triggerButton={
-                <Button className="sm:gap-0.5 md:flex flex-row gap-1.5" >
+                <Button className="sm:gap-0.5 md:flex flex-row gap-1.5">
                   <PlusIcon /> New Task
                 </Button>
               }
