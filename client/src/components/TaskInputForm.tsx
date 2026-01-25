@@ -14,6 +14,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import * as React from "react";
+import { useState } from "react";
 import {
   Popover,
   PopoverContent,
@@ -28,12 +29,14 @@ import {
   SelectValue,
   SelectTrigger,
 } from "./ui/select";
+import toast from "react-hot-toast";
 
 type TaskDInputFormProps = {
   triggerButton: React.ReactNode;
   formType: string;
   httpMethod: string;
   endPoint: string;
+  form_id?: number;
 };
 export const EditTask = async () => {
   const responce = await fetch(`http://localhost:3000/task/:`, {
@@ -56,13 +59,12 @@ export const TaskInputForm = ({
   const today = new Date().toLocaleDateString();
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date>(new Date());
-
   const [start_time, setStartTime] = React.useState("09:00");
   const [end_time, setEndTime] = React.useState("11:00");
   const [tittle, setTaskTitle] = React.useState("");
   const [scope, setScope] = React.useState("Daily");
   const [description, setTaskDescription] = React.useState("");
-  
+
 
   function ValidateForm(): void {
     if (tittle === "") {
@@ -73,7 +75,7 @@ export const TaskInputForm = ({
       alert("End time cannot be earlier or equal to start time");
     }
   }
-
+ 
   const Submit = async () => {
     const response = await fetch(`http://localhost:3000/${endPoint}`, {
       method: httpMethod,
@@ -87,10 +89,11 @@ export const TaskInputForm = ({
         end_time,
       }),
     });
-    response.json();
-  
+    const data = await response.json();
+    console.log("Server response:", data);
   };
 
+ 
   return (
     <Dialog>
       <DialogTrigger asChild>{triggerButton}</DialogTrigger>
@@ -107,7 +110,6 @@ export const TaskInputForm = ({
                 placeholder="Enter task tittle..."
                 required
                 onChange={(e) => setTaskTitle(e.target.value)}
-                value={tittle}
               />
             </div>
             <div className="space-y-2">
@@ -116,7 +118,6 @@ export const TaskInputForm = ({
                 required
                 placeholder="Enter task Description..."
                 onChange={(e) => setTaskDescription(e.target.value)}
-                value={description}
               />
             </div>
             <div className="flex gap-2 w-full justify-between">
@@ -206,7 +207,7 @@ export const TaskInputForm = ({
             </DialogClose>
             <DialogClose asChild>
               <Button
-                onClick={ValidateForm}
+                disabled={disabled}
                 type={
                   tittle === "" ||
                   description === "" ||
