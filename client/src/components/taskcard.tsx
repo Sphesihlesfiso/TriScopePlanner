@@ -37,7 +37,7 @@ export const TaskCard = ({ title, task, start_time,end_time,id }: TaskCardProps)
   };
 
   return (
-    <div className="grid grid-rows-2 gap-3 border p-3 rounded-2xl">
+    <div className="grid grid-rows-2 gap-3 border p-3 rounded-2xl mb-1.5">
       <ul className="flex justify-between gap-1.5">
         <li>{title}</li>
         <li>
@@ -68,7 +68,7 @@ export const TaskCard = ({ title, task, start_time,end_time,id }: TaskCardProps)
             formType="Edit Task"
             httpMethod="PATCH"
             endPoint={`task/:${id}`}
-            form_id={id}
+            
           />
 
           <Button onClick={DeleteTask}>
