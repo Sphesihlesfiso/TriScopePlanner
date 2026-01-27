@@ -1,9 +1,10 @@
-import { Trash, Edit, Calendar, Clock} from "lucide-react";
+import { Trash, Edit, Calendar, Clock } from "lucide-react";
 import { Button } from "./ui/button";
 // import { Checkbox } from "./ui/checkbox";
 import { TaskInputForm } from "./TaskInputForm";
 
 import { EditTask } from "./TaskInputForm";
+import toast from "react-hot-toast";
 type TaskCardProps = {
   title: string;
   task: string;
@@ -15,14 +16,23 @@ type TaskCardProps = {
 // const search="z"
 // const b=a.filter((w)=>w.includes(search))
 // console.log(b)
-export const TaskCard = ({ title, task, start_time,end_time,id }: TaskCardProps) => {
+export const TaskCard = ({
+  title,
+  task,
+  start_time,
+  end_time,
+  id,
+}: TaskCardProps) => {
   const DeleteTask = async () => {
     const response = await fetch(`http://localhost:3000/task/${id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     });
-    const data = response.json();
-    console.log(data);
+    if (response.ok) {
+      toast.success("Deleted task.");
+    } else {
+      toast.error("Failed to delete task.");
+    }
   };
   const addToGoogleCalender = async () => {
     const response = await fetch(
@@ -68,7 +78,6 @@ export const TaskCard = ({ title, task, start_time,end_time,id }: TaskCardProps)
             formType="Edit Task"
             httpMethod="PATCH"
             endPoint={`task/:${id}`}
-            
           />
 
           <Button onClick={DeleteTask}>
