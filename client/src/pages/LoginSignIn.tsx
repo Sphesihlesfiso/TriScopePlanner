@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 export const LoginSignIn = () => {
@@ -24,7 +25,7 @@ export const LoginSignIn = () => {
     const username = user_email;
     const password = plain_user_password;
     const endPoint = !signUp ? "login" : "register";
-   
+
     const response = await fetch(`http://localhost:3000/${endPoint}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -41,9 +42,12 @@ export const LoginSignIn = () => {
             },
       ),
     });
-   
+
     if (response.ok) {
       navigate("/");
+      toast.success("Succsesfully loged in.");
+    } else {
+      toast.error("Failed to log in, invalid credentials.");
     }
   };
   return (

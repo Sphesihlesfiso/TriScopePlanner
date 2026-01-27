@@ -28,6 +28,7 @@ import {
   SelectValue,
   SelectTrigger,
 } from "./ui/select";
+import toast from "react-hot-toast";
 
 type TaskDInputFormProps = {
   triggerButton: React.ReactNode;
@@ -75,7 +76,7 @@ export const TaskInputForm = ({
 
   const Submit = async (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
-    const response = await fetch(`http://localhost:3000/${endPoint}`, {
+    await fetch(`http://localhost:3000/${endPoint}`, {
       method: httpMethod,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -87,7 +88,12 @@ export const TaskInputForm = ({
         end_time,
       }),
     });
-    response.json();
+
+    if (formType === "Edit Task") {
+      toast.success("Changes saved");
+    } else {
+      toast.success("Task created");
+    }
   };
 
   return (
@@ -217,6 +223,7 @@ export const TaskInputForm = ({
               >
                 {formType === "Edit Task" ? "Save changes" : "Create Task"}
               </Button>
+              
             </DialogClose>
           </DialogFooter>
         </form>
