@@ -1,26 +1,17 @@
 import { Trash, Edit, Calendar, Clock } from "lucide-react";
 import { Button } from "./ui/button";
-// import { Checkbox } from "./ui/checkbox";
+
 import { TaskInputForm } from "./TaskInputForm";
 
 import { EditTask } from "./TaskInputForm";
 import toast from "react-hot-toast";
-type TaskCardProps = {
-  title: string;
-  task: string;
-  start_time: string;
-  end_time: string;
-  id: number;
-};
-// const a=["sssdfeeef","sphe","zane"]
-// const search="z"
-// const b=a.filter((w)=>w.includes(search))
-// console.log(b)
+import type { TaskCardProps } from "@/types";
+
 export const TaskCard = ({
   title,
   task,
-  start_time,
-  end_time,
+  startTime,
+  endTime,
   id,
 }: TaskCardProps) => {
   const DeleteTask = async () => {
@@ -56,11 +47,11 @@ export const TaskCard = ({
               <Clock />
             </li>
             <li>
-              <p>{start_time}</p>
+              <p>{startTime}</p>
             </li>
             -
             <li>
-              <p>{end_time}</p>
+              <p>{endTime}</p>
             </li>
           </ul>
         </li>

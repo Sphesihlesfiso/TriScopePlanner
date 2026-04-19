@@ -1,14 +1,11 @@
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-type InputItemProps = {
-  inputType: string;
-  inputPlaceholder: string;
-  inputLabel: string;
-};
+import type { InputItemProps } from "@/types";
 export const InputItem = ({
   inputType,
   inputPlaceholder,
   inputLabel,
+  
   
 }: InputItemProps) => {
   return (

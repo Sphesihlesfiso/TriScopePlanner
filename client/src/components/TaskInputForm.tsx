@@ -30,12 +30,7 @@ import {
 } from "./ui/select";
 import toast from "react-hot-toast";
 
-type TaskDInputFormProps = {
-  triggerButton: React.ReactNode;
-  formType: string;
-  httpMethod: string;
-  endPoint: string;
-};
+import type { TaskInputFormProps } from "@/types";
 export const EditTask = async () => {
   const responce = await fetch(`http://localhost:3000/task/:`, {
     method: "PATCH",
@@ -53,7 +48,7 @@ export const TaskInputForm = ({
   formType,
   httpMethod,
   endPoint,
-}: TaskDInputFormProps) => {
+}: TaskInputFormProps) => {
   const today = new Date().toLocaleDateString();
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date>(new Date());
