@@ -22,21 +22,19 @@ passport.deserializeUser(async (userId: number, cb) => {
     `SELECT * FROM users WHERE "userId" = $1`,
     [userId],
   );
+  console.log(result)
   cb(null, result.rows[0]);
 });
 passport.use(
   new Strategy(
-  {
-    usernameField: "userEmail", // 🔥 REQUIRED
-  },
+    {usernameField:"email"},
   async (email, password, cb) => {
-    console.log("EMAIL RECEIVED:", email);
 
     const result = await dataBase.query(
-      `SELECT * FROM users WHERE "UserEmail" = $1`,
+      `SELECT * FROM users WHERE "userEmail" = $1`,
       [email]
     );
-    console.log("EMAIL RECEIVED:", result);
+    
 
     if (result.rows.length === 0) {
       return cb(null, false, { message: "User not found" });
@@ -44,7 +42,7 @@ passport.use(
 
     const user = result.rows[0];
 
-    const match = await bcrypt.compare(password, user.password);
+    const match = await bcrypt.compare(password, user.hashedUserPassword);
 
     if (!match) {
       return cb(null, false, { message: "Wrong password" });
