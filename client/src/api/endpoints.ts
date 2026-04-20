@@ -1,5 +1,6 @@
-// import { crudeOperations } from "./crude";
-// import type { Task } from "@/types";
+import { crudeOperations } from "./crude";
 
-// export const getTasks=crudeOperations<Task>().getAllTasks(1)
-// console.log(getTasks)
+
+
+export const getTasks=crudeOperations()
+export const deleteTask =crudeOperations() 

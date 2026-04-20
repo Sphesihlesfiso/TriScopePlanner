@@ -9,7 +9,7 @@ export type TaskCardProps = {
   task: string;
   startTime: string;
   endTime: string;
-  id: number;
+  taskId: number;
 };
 export type TaskHolderProps = {
   scope: string;

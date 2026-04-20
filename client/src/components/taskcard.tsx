@@ -4,38 +4,21 @@ import { Button } from "./ui/button";
 import { TaskInputForm } from "./TaskInputForm";
 
 import { EditTask } from "./TaskInputForm";
-import toast from "react-hot-toast";
+
 import type { TaskCardProps } from "@/types";
+
+// import { deleteTask } from "@/api/endpoints";
+import { crudeOperations } from "@/api/crude";
 
 export const TaskCard = ({
   title,
   task,
   startTime,
   endTime,
-  id,
+  taskId,
 }: TaskCardProps) => {
-  const DeleteTask = async () => {
-    const response = await fetch(`http://localhost:3000/task/${id}`, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-    });
-    if (response.ok) {
-      toast.success("Deleted task.");
-    } else {
-      toast.error("Failed to delete task.");
-    }
-  };
-  const addToGoogleCalender = async () => {
-    const response = await fetch(
-      `http://localhost:3000/googlecalender/task/:${id}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-      },
-    );
-
-    response.json();
-  };
+  
+  
 
   return (
     <div className="grid grid-rows-2 gap-3 border p-3 rounded-2xl mb-1.5">
@@ -56,7 +39,7 @@ export const TaskCard = ({
           </ul>
         </li>
         <div className="flex align-middle gap-1">
-          <Button onClick={addToGoogleCalender}>
+          <Button>
             <Calendar />
           </Button>
 
@@ -68,10 +51,14 @@ export const TaskCard = ({
             }
             formType="Edit Task"
             httpMethod="PATCH"
-            endPoint={`task/:${id}`}
+            endPoint={`task/:${taskId}`}
           />
 
-          <Button onClick={DeleteTask}>
+          <Button
+            onClick={ async () => {
+              await crudeOperations().deleteTask(40);
+            }}
+          >
             <Trash />
           </Button>
         </div>

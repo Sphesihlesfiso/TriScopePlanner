@@ -1,16 +1,11 @@
 import { NavBar } from "@/pages/layouts/Navbar";
 import { TaskHolder } from '@/components/TaskHolder';
-import axios from "axios";
-// import {getTasks} from "@/api/endpoints"
-// const fetchData = async () => {
-//   const userTasks = await getTasks.getAllTasks(1);
-//   console.log(userTasks);
-// };
 
-// fetchData();
+
+
+
 export const Home = () => {
-//  const result = axios.get(`http://localhost:3000/1`);
-//  console.log(result)
+
   return (
     <div>
       <NavBar />
