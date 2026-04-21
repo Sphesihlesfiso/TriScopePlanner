@@ -7,8 +7,9 @@ import { EditTask } from "./TaskInputForm";
 
 import type { TaskCardProps } from "@/types";
 
-// import { deleteTask } from "@/api/endpoints";
-import { crudeOperations } from "@/api/crude";
+
+
+import { deleteTaskById } from "@/api/endpoints";
 
 export const TaskCard = ({
   title,
@@ -17,9 +18,6 @@ export const TaskCard = ({
   endTime,
   taskId,
 }: TaskCardProps) => {
-  
-  
-
   return (
     <div className="grid grid-rows-2 gap-3 border p-3 rounded-2xl mb-1.5">
       <ul className="flex justify-between gap-1.5">
@@ -55,8 +53,8 @@ export const TaskCard = ({
           />
 
           <Button
-            onClick={ async () => {
-              await crudeOperations().deleteTask(40);
+            onClick={async () => {
+              await deleteTaskById.deleteTask(taskId);
             }}
           >
             <Trash />

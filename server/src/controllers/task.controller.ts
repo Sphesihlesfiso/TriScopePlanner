@@ -8,7 +8,7 @@ import {
 } from "@services/task.service";
 export const getAllTasks = async (req: Request, res: Response) => {
   try {
-    
+    console.log("aibo");
     const userId = Number(req.params.userId);
 
     const usersTasks = await fetchTasks(userId);

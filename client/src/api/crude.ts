@@ -6,9 +6,10 @@ export function crudeOperations ( ) {
         await serverApi.get(`/${userId}`).then((responce) => {
           return responce.data.tasks;
         }),
-      deleteTask: async (taskId: string | number) =>
+      deleteTask: (taskId: string | number) =>
         
-        await serverApi.delete(`/${taskId}`)
+        serverApi.delete(`/delete/task/${taskId}`)
+            
         
     };
     

@@ -80,6 +80,7 @@ export const updateTask = async (task: any, taskId: number) => {
 
 export const deleteTask = async (taskId: number) => {
   try {
+    console.log(`Delete route service`)
     await dataBase.query(`DELETE FROM tasks WHERE "taskId"=$1`, [taskId]);
   } catch (error) {
     console.error("deleteTask service failed:", error);
