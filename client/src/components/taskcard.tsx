@@ -18,6 +18,7 @@ export const TaskCard = ({
   endTime,
   taskId,
 }: TaskCardProps) => {
+  console.log(taskId)
   return (
     <div className="grid grid-rows-2 gap-3 border p-3 rounded-2xl mb-1.5">
       <ul className="flex justify-between gap-1.5">
@@ -51,7 +52,7 @@ export const TaskCard = ({
             httpMethod="PATCH"
             endPoint={`task/:${taskId}`}
           />
-
+      
           <Button
             onClick={async () => {
               await deleteTaskById.deleteTask(taskId);

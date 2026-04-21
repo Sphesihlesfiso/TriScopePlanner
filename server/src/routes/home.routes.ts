@@ -8,8 +8,8 @@ import {
   updateUserTask,
 } from "@controllers/task.controller";
 const router = Router();
-router.get("/task/:taskId", getTask); // specific first
-router.get("/:userId", getAllTasks); // dynamic last
+router.get("/user/task/:taskId", getTask); // specific first
+router.get("/user/:userId", getAllTasks); // dynamic last
 router.post("/post/:userId", postTask);
 router.delete("/delete/task/:taskId", deleteUserTask);
 router.patch("/:taskId", updateUserTask);

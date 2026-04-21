@@ -1,16 +1,19 @@
 import { serverApi } from "@/lib/axios";
 
-export function crudeOperations ( ) {
-    return {
-      getAllTasks: async (userId: string | number) =>
-        await serverApi.get(`/${userId}`).then((responce) => {
-          return responce.data.tasks;
-        }),
-      deleteTask: (taskId: string | number) =>
-        
-        serverApi.delete(`/delete/task/${taskId}`)
-            
-        
-    };
-    
+export function crudeOperations(resourcesUrl?: string) {
+  return {
+    getAllTasks: async (userId: string | number) =>{
+      const results =await serverApi.get(`/${resourcesUrl}/${userId}`)
+        return results.data.tasks;
+      },
+    deleteTask: async (taskId: string | number) =>
+      await serverApi.delete(`/${resourcesUrl}/${taskId}`),
+    patchTask: async (taskId: number | string) => {
+      await serverApi.patch(`/${resourcesUrl}/${taskId}`);
+    },
+    getTask: async (taskId: string | number) => {
+      const results = await serverApi.get(`/${resourcesUrl}/${taskId}`);
+      return results.data.task;
+    },
+  };
 }
