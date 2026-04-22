@@ -31,6 +31,9 @@ import {
 import toast from "react-hot-toast";
 
 import type { TaskInputFormProps } from "@/types";
+import { postTask } from "@/api/endpoints";
+
+
 export const EditTask = async () => {
   const responce = await fetch(`http://localhost:3000/task/:`, {
     method: "PATCH",
@@ -46,8 +49,7 @@ export const EditTask = async () => {
 export const TaskInputForm = ({
   triggerButton,
   formType,
-  httpMethod,
-  endPoint,
+
 }: TaskInputFormProps) => {
   const today = new Date().toLocaleDateString();
   const [open, setOpen] = React.useState(false);
@@ -55,12 +57,12 @@ export const TaskInputForm = ({
 
   const [start_time, setStartTime] = React.useState("09:00");
   const [end_time, setEndTime] = React.useState("11:00");
-  const [tittle, setTaskTitle] = React.useState("");
+  const [title, setTaskTitle] = React.useState("");
   const [scope, setScope] = React.useState("Daily");
   const [description, setTaskDescription] = React.useState("");
 
   function ValidateForm(): void {
-    if (tittle === "") {
+    if (title === "") {
       alert("Title cannot be empty");
     } else if (description === "") {
       alert("Description cannot be empty");
@@ -71,18 +73,7 @@ export const TaskInputForm = ({
 
   const Submit = async (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
-    await fetch(`http://localhost:3000/${endPoint}`, {
-      method: httpMethod,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        tittle,
-        description,
-        date,
-        scope,
-        start_time,
-        end_time,
-      }),
-    });
+    postTask.createTask(1,{scope:scope,taskId:1,title:title,description:description,startTime:start_time,endTime:end_time})
 
     if (formType === "Edit Task") {
       toast.success("Changes saved");
@@ -104,10 +95,10 @@ export const TaskInputForm = ({
               <Label htmlFor="title">Title</Label>
               <Input
                 type="text"
-                placeholder="Enter task tittle..."
+                placeholder="Enter task title..."
                 required
                 onChange={(e) => setTaskTitle(e.target.value)}
-                value={tittle}
+                value={title}
               />
             </div>
             <div className="space-y-2">
@@ -208,7 +199,7 @@ export const TaskInputForm = ({
               <Button
                 onClick={ValidateForm}
                 type={
-                  tittle === "" ||
+                  title === "" ||
                   description === "" ||
                   parseInt(end_time.split(":").join("")) <=
                     parseInt(start_time.split(":").join(""))

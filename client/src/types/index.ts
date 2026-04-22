@@ -26,6 +26,5 @@ export type Task = {
 export type  TaskInputFormProps = {
   triggerButton: React.ReactNode;
   formType: string;
-  httpMethod: string;
-  endPoint: string;
+  
 };

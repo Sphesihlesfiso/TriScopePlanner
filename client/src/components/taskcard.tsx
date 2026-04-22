@@ -49,8 +49,7 @@ export const TaskCard = ({
               </Button>
             }
             formType="Edit Task"
-            httpMethod="PATCH"
-            endPoint={`task/:${taskId}`}
+            
           />
       
           <Button

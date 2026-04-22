@@ -8,7 +8,7 @@ import {
 } from "@services/task.service";
 export const getAllTasks = async (req: Request, res: Response) => {
   try {
-    console.log("aibo");
+
     const userId = Number(req.params.userId);
 
     const usersTasks = await fetchTasks(userId);
@@ -16,14 +16,15 @@ export const getAllTasks = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: "Tasks fetched successfully",
-      tasks: usersTasks,
+      payload: usersTasks,
     });
-  } catch (error) {
-    console.error(`Failed to fetch user tasks in the controller layer`, error);
-
+  } catch (error:any) {
+  
     res.status(500).json({
       success: false,
-      message: "Failed to fetch tasks",
+      message:
+        error.message || "Failed to fetch user tasks in the controller layer",
+      payload: null,
     });
   }
 };
@@ -95,7 +96,7 @@ export const getTask = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: "Task fetched successfully",
-      task,
+      payload:task
     });
   } catch (error) {
     console.error(`Failed to fetch task`, error);
