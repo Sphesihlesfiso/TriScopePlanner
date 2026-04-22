@@ -14,7 +14,7 @@ export type TaskCardProps = {
 export type TaskHolderProps = {
   scope: string;
   due: string;
-}
+};
 export type Task = {
   taskId: number;
   title: string;
@@ -22,9 +22,13 @@ export type Task = {
   startTime: string;
   scope: string;
   endTime: string;
-}
-export type  TaskInputFormProps = {
+};
+export type TaskInputFormProps = {
   triggerButton: React.ReactNode;
   formType: string;
-  
+};
+export type User = {
+  userName: string;
+  password: string;
+  email: string;
 };

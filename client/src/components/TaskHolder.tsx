@@ -11,13 +11,17 @@ import type { TaskHolderProps} from "@/types";
 import { getTasks } from "@/api/endpoints"
 import { useEffect,useState } from "react";
 import type { Task } from '../types/index';
+
 export const TaskHolder = ({ scope, due }: TaskHolderProps) => {
   const [userTasks, setUserTasks] = useState<Task[]>([]);
   useEffect ( () => {
-    getTasks.getAllTasks(1).then((responce)=>{
-      setUserTasks(responce)
+    const fetchAllTasks = async()=>{
+    await getTasks.getAll(11).then((response)=>{
+      setUserTasks(response)
     });
-  
+    }
+    
+    fetchAllTasks();
   },[])
   
   

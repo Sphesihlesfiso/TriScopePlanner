@@ -14,6 +14,7 @@ export const sessionInitializer = session({
   cookie: { secure: false, maxAge: 1000 * 60 * 60 * 24 * 5 },
 });
 passport.serializeUser((user: any, cb) => {
+  console.log("SERIALIZE USER:", user);
   cb(null, user.userId);
 });
 

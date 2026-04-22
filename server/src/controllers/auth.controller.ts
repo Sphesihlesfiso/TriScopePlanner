@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { register } from "@services/auth.service";
 import passport from "passport";
+
 export const registerUser = async (req: Request, res: Response) => {
   try {
     const { email, password, username } = req.body;
@@ -26,10 +27,14 @@ export const signInUser = async (
     if (!user) {
       return res.status(401).json({ message: "Login failed" });
     }
-    req.logIn(user, (err) => {
-      res.redirect(`/${user.userId}`);
-      if (err) return next(err);
-    });
+   req.logIn(user, (err) => {
+     if (err) return next(err);
+
+     res.json({
+       success: true,
+       user,
+     });
+   });
   })(req, res, next);
 };
 export const signOut = async (

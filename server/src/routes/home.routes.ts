@@ -12,5 +12,5 @@ router.get("/user/task/:taskId", getTask); // specific first
 router.get("/user/:userId", getAllTasks); // dynamic last
 router.post("/post/:userId", postTask);
 router.delete("/delete/task/:taskId", deleteUserTask);
-router.patch("/:taskId", updateUserTask);
+router.patch("/patch/task/:taskId", updateUserTask);
 export default router;

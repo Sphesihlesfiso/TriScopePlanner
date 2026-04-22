@@ -31,32 +31,18 @@ import {
 import toast from "react-hot-toast";
 
 import type { TaskInputFormProps } from "@/types";
-import { postTask } from "@/api/endpoints";
-
-
-export const EditTask = async () => {
-  const responce = await fetch(`http://localhost:3000/task/:`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({}),
-  });
-
-  return responce.json();
-};
+import { postTask, editTask } from "@/api/endpoints";
 
 export const TaskInputForm = ({
   triggerButton,
   formType,
-
 }: TaskInputFormProps) => {
   const today = new Date().toLocaleDateString();
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date>(new Date());
 
-  const [start_time, setStartTime] = React.useState("09:00");
-  const [end_time, setEndTime] = React.useState("11:00");
+  const [startTime, setStartTime] = React.useState("09:00");
+  const [endTime, setEndTime] = React.useState("11:00");
   const [title, setTaskTitle] = React.useState("");
   const [scope, setScope] = React.useState("Daily");
   const [description, setTaskDescription] = React.useState("");
@@ -66,18 +52,33 @@ export const TaskInputForm = ({
       alert("Title cannot be empty");
     } else if (description === "") {
       alert("Description cannot be empty");
-    } else if (end_time <= start_time) {
+    } else if (endTime <= startTime) {
       alert("End time cannot be earlier or equal to start time");
     }
   }
 
   const Submit = async (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
-    postTask.createTask(1,{scope:scope,taskId:1,title:title,description:description,startTime:start_time,endTime:end_time})
 
     if (formType === "Edit Task") {
+      editTask.patchTask(51, {
+        scope: scope,
+        taskId: 51,
+        title: title,
+        description: description,
+        startTime: startTime,
+        endTime: endTime,
+      });
       toast.success("Changes saved");
     } else {
+      postTask.create(11, {
+        scope: scope,
+        taskId: 11,
+        title: title,
+        description: description,
+        startTime: startTime,
+        endTime: endTime,
+      });
       toast.success("Task created");
     }
   };
@@ -152,9 +153,9 @@ export const TaskInputForm = ({
                     <Input
                       type="time"
                       id="time-picker"
-                      value={start_time}
+                      value={startTime}
                       onChange={(e) => setStartTime(e.target.value)}
-                      defaultValue={start_time}
+                      defaultValue={startTime}
                       required
                       className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
                     />
@@ -166,7 +167,7 @@ export const TaskInputForm = ({
                     <Input
                       type="time"
                       id="time-picker"
-                      defaultValue={end_time}
+                      defaultValue={endTime}
                       onChange={(e) => setEndTime(e.target.value)}
                       className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
                     />
@@ -201,15 +202,14 @@ export const TaskInputForm = ({
                 type={
                   title === "" ||
                   description === "" ||
-                  parseInt(end_time.split(":").join("")) <=
-                    parseInt(start_time.split(":").join(""))
+                  parseInt(endTime.split(":").join("")) <=
+                    parseInt(startTime.split(":").join(""))
                     ? "button"
                     : "submit"
                 }
               >
                 {formType === "Edit Task" ? "Save changes" : "Create Task"}
               </Button>
-              
             </DialogClose>
           </DialogFooter>
         </form>

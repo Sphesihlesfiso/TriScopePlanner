@@ -1,6 +1,6 @@
 import { ThemeProvider } from "./components/theme-provider";
 import { Home } from "./pages/Home";
-// import { LoginSignIn } from "./pages/LoginSignIn";
+import { LoginSignIn } from "./pages/LoginSignIn";
 import { Route, Routes } from "react-router-dom";
 export const App = () => {
   return (
@@ -11,7 +11,7 @@ export const App = () => {
           path="/login"
           element={
             <div className="flex items-center justify-center h-screen ">
-              {/* <LoginSignIn /> */}
+              { <LoginSignIn /> }
             </div>
           }
         />

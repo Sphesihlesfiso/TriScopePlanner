@@ -7,18 +7,13 @@ import {
   InputGroupInput,
   InputGroup,
 } from "@/components/ui/input-group";
-export const NavBar = () => {
-  const logOutUser = async () => {
-    const response = await fetch(`http://localhost:3000/logout`, {
-      credentials: "include",
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    response.json();
-  };
+import { logOut } from "@/api/endpoints";
 
+export const NavBar = () => {
+  const signOut = async ()=>{
+      await logOut.logout();
+      console.log("out we go")
+    }; 
   return (
     <nav className="sticky p-3.5 border">
       <div className="flex align-middle justify-between">
@@ -50,8 +45,7 @@ export const NavBar = () => {
                 </Button>
               }
               formType="Create New Task"
-              httpMethod="POST"
-              endPoint="task"
+              
             ></TaskInputForm>
           </li>
           <li>
@@ -59,7 +53,7 @@ export const NavBar = () => {
           </li>
           <li>
             <Button type="button">
-              <LogOut onClick={logOutUser} />
+              <LogOut onClick={signOut} />
             </Button>
           </li>
         </ul>
