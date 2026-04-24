@@ -12,7 +12,6 @@ import { logOut } from "@/api/endpoints";
 export const NavBar = () => {
   const signOut = async ()=>{
       await logOut.logout();
-      console.log("out we go")
     }; 
   return (
     <nav className="sticky p-3.5 border">
