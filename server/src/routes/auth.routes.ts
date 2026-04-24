@@ -10,6 +10,7 @@ import { Router } from "express";
 const router = Router();
 router.post("/register", registerUser);
 router.post("/sign-in",signInUser)
+
 router.post("/sign-out",signOut)
 
 export default router;
