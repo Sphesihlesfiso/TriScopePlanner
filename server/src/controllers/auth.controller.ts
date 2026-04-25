@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { changePassword, register, signIn } from "@services/auth.service";
-import passport from "passport";
 import { generateToken } from "utils/generateToken.utils";
 import {
   sendPassowordResertEmail,
@@ -9,7 +8,6 @@ import {
 } from "mailtrap/emails";
 import { verifyMail, saveResertToken } from '../services/auth.service';
 
-import bcrypt from 'bcrypt';
 
 export const registerUser = async (req: Request, res: Response) => {
   try {
