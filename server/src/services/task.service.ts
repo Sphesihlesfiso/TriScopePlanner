@@ -9,6 +9,7 @@ export const createTask = async (task: any, userId: number) => {
        VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING *`,
       [scope, title, description, startTime, endTime, userId, date],
     );
+    return results.rows[0]
   } catch (error) {
     throw {
       message: "Failed to create task",

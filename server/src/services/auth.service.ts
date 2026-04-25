@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
-import { dataBase } from "../config/db"; // adjust import to your setup
-import { generateToken } from "utils/generateToken.utils";
+import { dataBase } from "../config/db"; 
+import { json } from "stream/consumers";
+
 
 export const register = async (
   email: string,
@@ -39,6 +40,30 @@ export const register = async (
     throw { message: "Registration failed.", error };
   }
 };
+export const signIn = async (email: string, password: string) => {
+  try {
+    const result = await dataBase.query(
+      `SELECT * FROM users WHERE "userEmail" = $1`,
+      [email],
+    );
+
+    if (result.rows.length === 0) {
+      throw { message: "User not found" };
+    }
+
+    const user = result.rows[0];
+
+    const match = await bcrypt.compare(password, user.hashedUserPassword);
+
+    if (!match) {
+      throw { message: "Wrong password credentials" };
+    }
+    
+    return user.userId;
+  } catch (error) {
+    throw error;
+  }
+};
 export const verifyMail = async (verificationToken: number) => {
   try {
     const unverifedUser = await dataBase.query(
@@ -51,19 +76,42 @@ export const verifyMail = async (verificationToken: number) => {
     console.error(`Failed to verify user:${error?.message}`);
   }
 };
-export const changePassword = async (password: string, userEmail: number) => {
+export const saveResertToken = async (
+  resertToken: number,
+  resertTokenExpiration:Date,
+  userEmail: string,
+) => {
   try {
-    const existingUser = await dataBase.query(
-      `SELECT * FROM users WHERE "userEmail" = $1 AND "verifiedUser"=$2`,
-      [userEmail, true],
+    const savedToken = await dataBase.query(
+      `UPDATE users
+          SET "resetToken" = $2,
+              "resetTokenExpiration" = $3
+          WHERE "userEmail" = $1
+          RETURNING *`,[userEmail,resertToken,resertTokenExpiration]
     );
+    return savedToken.rows[0]
+  } catch (error) {
+    throw error;
+  }
+};
+export const changePassword = async (password: string,resertToken:string) => {
+  try {
+
+    const existingUser = await dataBase.query(
+      `SELECT * FROM users WHERE "resertToken" = $1`,
+      [resertToken],
+    );
+    console.log(existingUser)
+    if (!existingUser.rows.length) {
+      return "Token not found or expired.";
+    }
     const oldUserPassword = existingUser.rows[0].hashedUserPassword;
     console.log("old user password ", oldUserPassword);
     const newHashedPassword = await bcrypt.hash(password, 10);
     if (existingUser.rows.length > 0) {
       const user = await dataBase.query(
-        `UPDATE users SET "hashedUserPassword"=$1 WHERE "userEmail"=$2 RETURNING *`,
-        [newHashedPassword, userEmail],
+        `UPDATE users SET "hashedUserPassword"=$1 WHERE "resertToken"=$2 RETURNING *`,
+        [newHashedPassword, resertToken],
       );
 
       return user.rows[0];

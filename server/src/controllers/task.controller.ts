@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import jwt from "jsonwebtoken";
 import {
   fetchTask,
   fetchTasks,
@@ -6,10 +7,19 @@ import {
   deleteTask,
   updateTask,
 } from "@services/task.service";
-export const getAllTasks = async (req: Request, res: Response) => {
+export const getAllTasks = async (
+  req: Request & { userId?: number },
+  res: Response,
+) => {
   try {
+    const userId = req.userId;
 
-    const userId = Number(req.params.userId);
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized - no userId",
+      });
+    }
 
     const usersTasks = await fetchTasks(userId);
 
@@ -18,8 +28,7 @@ export const getAllTasks = async (req: Request, res: Response) => {
       message: "Tasks fetched successfully",
       payload: usersTasks,
     });
-  } catch (error:any) {
-  
+  } catch (error: any) {
     res.status(500).json({
       success: false,
       message:
@@ -28,19 +37,27 @@ export const getAllTasks = async (req: Request, res: Response) => {
     });
   }
 };
-export const postTask = async (req: Request, res: Response) => {
+export const postTask = async (
+  req: Request & { userId?: number },
+  res: Response,
+) => {
   try {
     const task = req.body;
-    const userId = Number(req.params.userId);
-
-    await createTask(task, userId);
+    const userId = req.userId;
+    if (!userId){
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized - no userId",
+      });}
+    const newTask=await createTask(task, userId);
 
     res.status(201).json({
       success: true,
       message: "Task created successfully",
+      payload:newTask
     });
   } catch (error) {
-    console.error(`Failed to post user tasks in the controller layer`, error);
+    console.error(`Failed to post user tasks ${error}`);
 
     res.status(500).json({
       success: false,
@@ -96,7 +113,7 @@ export const getTask = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: "Task fetched successfully",
-      payload:task
+      payload: task,
     });
   } catch (error) {
     console.error(`Failed to fetch task`, error);

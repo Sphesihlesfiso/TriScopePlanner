@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { changePassword, register } from "@services/auth.service";
+import { changePassword, register, signIn } from "@services/auth.service";
 import passport from "passport";
 import { generateToken } from "utils/generateToken.utils";
 import {
@@ -7,7 +7,9 @@ import {
   sendPassowordResertSuccessEmail,
   sendVerificationEmail,
 } from "mailtrap/emails";
-import { verifyMail } from "../services/auth.service";
+import { verifyMail, saveResertToken } from '../services/auth.service';
+
+import bcrypt from 'bcrypt';
 
 export const registerUser = async (req: Request, res: Response) => {
   try {
@@ -48,9 +50,12 @@ export const verifyUserEmail = async (req: Request, res: Response) => {
 export const sendPasswordresertEmail = async (req: Request, res: Response) => {
   const { email } = req.body;
   try {
+    const resetToken=Math.floor(10000+Math.random()*20000)
+    const resetTokenExpiration = new Date(Date.now() + 60 * 60 * 1000);
+    saveResertToken(resetToken,resetTokenExpiration,email)
     await sendPassowordResertEmail(
       email,
-      "http://localhost:3000/auth/reset-password",
+      `http://localhost:3000/auth/reset-password/${resetToken}`,
     );
     res.status(200).json({
       success: true,
@@ -66,8 +71,9 @@ export const sendPasswordresertEmail = async (req: Request, res: Response) => {
 export const makeNewUserPassword = async (req: Request, res: Response) => {
   try {
     const { newPassword, email } = req.body;
-    await changePassword(newPassword, email);
-    await sendPassowordResertSuccessEmail(email)
+    const {resertToken}=req.params
+    await changePassword(newPassword,resertToken);
+    await sendPassowordResertSuccessEmail(email);
     res.status(201).json({ success: true, message: "Changed user password." });
   } catch (error) {
     res.status(500).json({
@@ -76,51 +82,30 @@ export const makeNewUserPassword = async (req: Request, res: Response) => {
     });
   }
 };
-export const signInUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  passport.authenticate("local", (err: any, user: any) => {
-    if (err) return next(err);
-
-    if (!user) {
-      return res.status(401).json({ message: "Login failed" });
-    }
-    req.logIn(user, (err) => {
-      if (err) return next(err);
-
-      res.json({
-        success: true,
-        user,
-      });
-    });
-  })(req, res, next);
-};
-export const signOut = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  // If no user is logged in, respond immediately
-  if (!req.user) {
-    return res
+export const signInUser = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+  try {
+  
+    const userId = await signIn(email, password);
+    await generateToken(res, userId);
+    res
       .status(200)
-      .json({ success: true, message: "No active session." });
+      .json({ success: true, message: "Successfully logged in user." });
+  } catch (error:any) {
+    console.error(`Failed to log-in user ${error?.message}`);
+    res.status(500).json({ success: false, message: "Failed to log in user." });
   }
-
-  // Passport 0.6+ requires a callback
-  req.logOut((err) => {
-    if (err) return next(err);
-
-    // Destroy session on server and clear cookie on client
-    req.session?.destroy((err) => {
-      if (err) return next(err);
-
-      res.clearCookie("connect.sid"); // or your session cookie name
-      return res
-        .status(200)
-        .json({ success: true, message: "Successfully logged out." });
-    });
-  });
+};
+export const signOut = async (req: Request, res: Response) => {
+  try {
+    res.clearCookie("token");
+    res
+      .status(200)
+      .json({ success: true, message: "Successfully logged out user." });
+  } catch (error) {
+    console.error(`Failed to logout user ${error}`);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to log out user." });
+  }
 };
