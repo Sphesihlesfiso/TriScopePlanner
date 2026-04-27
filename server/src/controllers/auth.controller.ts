@@ -51,12 +51,12 @@ export const verifyUserEmail = async (req: Request, res: Response) => {
 export const sendPasswordresertEmail = async (req: Request, res: Response) => {
   const { email } = req.body;
   try {
-    const resetToken = Math.floor(10000 + Math.random() * 20000);
+    const resetToken = crypto.randomUUID();
     const resetTokenExpiration = new Date(Date.now() + 60 * 60 * 1000);
     saveResertToken(resetToken, resetTokenExpiration, email);
     await sendPassowordResertEmail(
       email,
-      `http://localhost:3000/auth/reset-password/${resetToken}`,
+      `${process.env.CLIENT_URL}/auth/reset-password/${resetToken}`,
     );
     res.status(200).json({
       success: true,

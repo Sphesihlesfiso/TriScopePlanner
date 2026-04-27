@@ -1,11 +1,7 @@
 import { NavBar } from "@/pages/layouts/Navbar";
-import { TaskHolder } from '@/components/TaskHolder';
-
-
-
+import { TaskHolder } from "@/components/TaskHolder";
 
 export const Home = () => {
-
   return (
     <div>
       <NavBar />

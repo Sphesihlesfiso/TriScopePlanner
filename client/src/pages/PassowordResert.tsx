@@ -24,7 +24,9 @@ export const ResertPasswordCard =()=> {
             email:email
         })
         if (res.data.success){
+            navigate("/")
             toast.success("Email with resert link has been sent to your email")
+
         }
         else{
             toast.error("User with such email does not exist.")
@@ -50,7 +52,8 @@ export const ResertPasswordCard =()=> {
                 type="email"
                 placeholder="m@example.com"
                 required
-                onChange={(e)=>setEmail(e.target.value)}
+                onChange={(e)=>{e.preventDefault()
+                    setEmail(e.target.value)}}
               />
             </div>
           </div>
@@ -60,7 +63,8 @@ export const ResertPasswordCard =()=> {
         <Button type="submit" className="w-full">
           Continue
         </Button>
-        <Button variant="link" className="w-full">
+        <Button variant="link" className="w-full" onClick={(e)=>{e.preventDefault()
+            navigate("/login")}}>
           Return to sign-up
         </Button>
       </CardFooter>

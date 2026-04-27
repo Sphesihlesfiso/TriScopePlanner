@@ -11,9 +11,11 @@ import { logOut } from "@/api/endpoints";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
+
 export const NavBar = () => {
   const navigate=useNavigate()
-  const signOut = async () => {
+  const signOut = async (e:React.FormEvent<HTMLElement>) => {
+    e.preventDefault()
     const res= await logOut.logout();
     if (res.data.success){
       navigate("/login") 

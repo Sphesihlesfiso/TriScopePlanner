@@ -77,7 +77,7 @@ export const verifyMail = async (verificationToken: number) => {
   }
 };
 export const saveResertToken = async (
-  resertToken: number,
+  resertToken: string,
   resertTokenExpiration:Date,
   userEmail: string,
 ) => {

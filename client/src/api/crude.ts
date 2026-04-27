@@ -3,9 +3,9 @@ import type { ServerRes, } from "../types/api";
 
 export function crudeOperations<T>(resourcesUrl?: string) {
   return {
-    getAll: async (userId: string | number): Promise<T> => {
+    getAll: async (): Promise<T> => {
       const results = await serverApi.get<ServerRes<T>>(
-        `/${resourcesUrl}/${userId}`,
+        `/${resourcesUrl}`,
       );
       if (!results.data.success) throw new Error(results.data.message);
       return results.data.payload;

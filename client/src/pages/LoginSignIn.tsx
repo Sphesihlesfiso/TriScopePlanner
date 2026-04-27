@@ -15,8 +15,7 @@ import { Label } from "@/components/ui/label";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { signUpUser } from '../api/endpoints';
-
+import { signUpUser } from "../api/endpoints";
 
 export const LoginSignIn = () => {
   const [signUp, setSignUp] = useState(false);
@@ -26,37 +25,35 @@ export const LoginSignIn = () => {
   const navigate = useNavigate();
   const Submit = async (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
-   
+
     // const endPoint = !signUp ? "login" : "register";
     // console.log(endPoint)
-    
 
-
-  
-    if (!signUp){
-          const results = await loginUser.postUser({
-            userName: userName,
-            email: userEmail,
-            password: password,
-          });
-    if (results.data.success) {
-      navigate("/");
-      toast.success("Succsesfully loged in.");
+    if (!signUp) {
+      const results = await loginUser.postUser({
+        userName: userName,
+        email: userEmail,
+        password: password,
+      });
+      if (results.data.success) {
+        navigate("/");
+        toast.success("Succsesfully loged in.");
+      } else {
+        toast.error("Failed to log in, invalid credentials.");
+      }
     } else {
-      toast.error("Failed to log in, invalid credentials.");
-    }}else{
-        const res=await signUpUser.postUser({
-          userName: userName,
-          email: userEmail,
-          password: password,
-        });
-        if (res.data.success){
-          toast.success("Verify your email.")
-          navigate("/Email-verification")
-        }else{
-          //must do user already taken
-          toast.error("Failed to sign-up user.")
-        }
+      const res = await signUpUser.postUser({
+        userName: userName,
+        email: userEmail,
+        password: password,
+      });
+      if (res.data.success) {
+        toast.success("Verify your email.");
+        navigate("/Email-verification");
+      } else {
+        //must do user already taken
+        toast.error("Failed to sign-up user.");
+      }
     }
   };
   return (
@@ -70,7 +67,13 @@ export const LoginSignIn = () => {
               : "Enter your email ,name and password to make an account."}
           </CardDescription>
           <CardAction>
-            <Button variant="link" onClick={() => setSignUp((prev) => !prev)}>
+            <Button
+              variant="link"
+              onClick={(e) => {
+                e.preventDefault();
+                setSignUp((prev) => !prev);
+              }}
+            >
               {!signUp ? "Sign up" : "Sign in"}
             </Button>
           </CardAction>
@@ -84,7 +87,10 @@ export const LoginSignIn = () => {
                 type="email"
                 placeholder="m@example.com"
                 required
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  e.preventDefault();
+                  setEmail(e.target.value);
+                }}
               />
             </div>
             {signUp && (
@@ -94,7 +100,10 @@ export const LoginSignIn = () => {
                   id="username"
                   type="text"
                   placeholder="Jane"
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={(e) => {
+                    e.preventDefault();
+                    setUsername(e.target.value);
+                  }}
                   required
                 />
               </div>
@@ -102,19 +111,26 @@ export const LoginSignIn = () => {
             <div className="flex flex-col gap-2">
               <div className="flex items-center">
                 <Label htmlFor="password">Password</Label>
-                <a
-                  href="#"
+                <Button
+                  variant="link"
                   className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate("/forgot-passoword");
+                  }}
                 >
                   Forgot your password?
-                </a>
+                </Button>
               </div>
               <div className="mb-2">
                 <Input
                   id="password"
                   type="password"
                   required
-                  onChange={(e) => setpassword(e.target.value)}
+                  onChange={(e) => {
+                    e.preventDefault();
+                    setpassword(e.target.value);
+                  }}
                 />
               </div>
             </div>
@@ -123,9 +139,6 @@ export const LoginSignIn = () => {
         <CardFooter className="flex-col gap-2 ">
           <Button type="submit" className="w-full">
             {signUp ? "Sign up" : "Login"}
-          </Button>
-          <Button variant="outline" className="w-full">
-            {signUp ? "Sign up with Google" : "Login with Google"}
           </Button>
         </CardFooter>
       </form>

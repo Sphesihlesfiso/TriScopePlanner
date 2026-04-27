@@ -16,7 +16,7 @@ export const TaskHolder = ({ scope, due }: TaskHolderProps) => {
   const [userTasks, setUserTasks] = useState<Task[]>([]);
   useEffect ( () => {
     const fetchAllTasks = async()=>{
-    await getTasks.getAll(11).then((response)=>{
+    await getTasks.getAll().then((response)=>{
       setUserTasks(response)
     });
     }
