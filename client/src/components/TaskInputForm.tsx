@@ -36,6 +36,7 @@ import { postTask, editTask } from "@/api/endpoints";
 export const TaskInputForm = ({
   triggerButton,
   formType,
+  taskId
 }: TaskInputFormProps) => {
   const today = new Date().toLocaleDateString();
   const [open, setOpen] = React.useState(false);
@@ -61,9 +62,11 @@ export const TaskInputForm = ({
     e.preventDefault();
 
     if (formType === "Edit Task") {
-      editTask.patchTask(51, {
+      console.log('This is the tasks id ',taskId)
+      
+      editTask.patchTask(taskId, {
         scope: scope,
-        taskId: 51,
+        taskId: taskId,
         title: title,
         description: description,
         startTime: startTime,
@@ -71,9 +74,9 @@ export const TaskInputForm = ({
       });
       toast.success("Changes saved");
     } else {
-      postTask.create(11, {
+      postTask.create( {
         scope: scope,
-        taskId: 11,
+        taskId: taskId,
         title: title,
         description: description,
         startTime: startTime,

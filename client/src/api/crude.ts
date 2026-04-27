@@ -13,11 +13,11 @@ export function crudeOperations<T>(resourcesUrl?: string) {
     delete: async (taskId: string | number) =>
       await serverApi.delete(`/${resourcesUrl}/${taskId}`),
     patchTask: async (taskId: number | string, payload: T) => {
-      await serverApi.patch(`/${resourcesUrl}/${taskId}`, payload);
+      return await serverApi.patch(`/${resourcesUrl}/${taskId}`, payload);
     },
-    create: async (userId?: string | number, payload?: T) => {
+    create: async ( payload?: T) => {
       const results = await serverApi.post(
-        `/${resourcesUrl}/${userId}`,
+        `/${resourcesUrl}`,
         payload,
       );
       return results;

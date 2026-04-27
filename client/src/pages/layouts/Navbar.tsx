@@ -55,6 +55,8 @@ export const NavBar = () => {
                 </Button>
               }
               formType="Create New Task"
+              taskId={0}
+             
             ></TaskInputForm>
           </li>
           <li>
