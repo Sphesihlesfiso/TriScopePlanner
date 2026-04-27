@@ -6,8 +6,7 @@ import {
   sendPassowordResertSuccessEmail,
   sendVerificationEmail,
 } from "mailtrap/emails";
-import { verifyMail, saveResertToken } from '../services/auth.service';
-
+import { verifyMail, saveResertToken } from "../services/auth.service";
 
 export const registerUser = async (req: Request, res: Response) => {
   try {
@@ -35,9 +34,13 @@ export const verifyUserEmail = async (req: Request, res: Response) => {
   try {
     const user = await verifyMail(verificationToken);
     if (user)
-      res
-        .status(204)
+     return res
+        .status(200)
         .json({ success: true, message: "Successfully verified user email." });
+    res.status(401).json({
+      success: false,
+      message: "Wrong or expired token",
+    });
   } catch (error) {
     res.status(400).json({
       success: false,
@@ -48,9 +51,9 @@ export const verifyUserEmail = async (req: Request, res: Response) => {
 export const sendPasswordresertEmail = async (req: Request, res: Response) => {
   const { email } = req.body;
   try {
-    const resetToken=Math.floor(10000+Math.random()*20000)
+    const resetToken = Math.floor(10000 + Math.random() * 20000);
     const resetTokenExpiration = new Date(Date.now() + 60 * 60 * 1000);
-    saveResertToken(resetToken,resetTokenExpiration,email)
+    saveResertToken(resetToken, resetTokenExpiration, email);
     await sendPassowordResertEmail(
       email,
       `http://localhost:3000/auth/reset-password/${resetToken}`,
@@ -69,8 +72,8 @@ export const sendPasswordresertEmail = async (req: Request, res: Response) => {
 export const makeNewUserPassword = async (req: Request, res: Response) => {
   try {
     const { newPassword, email } = req.body;
-    const {resertToken}=req.params
-    await changePassword(newPassword,resertToken);
+    const { resertToken } = req.params;
+    await changePassword(newPassword, resertToken);
     await sendPassowordResertSuccessEmail(email);
     res.status(201).json({ success: true, message: "Changed user password." });
   } catch (error) {
@@ -83,13 +86,12 @@ export const makeNewUserPassword = async (req: Request, res: Response) => {
 export const signInUser = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   try {
-  
     const userId = await signIn(email, password);
     await generateToken(res, userId);
     res
       .status(200)
       .json({ success: true, message: "Successfully logged in user." });
-  } catch (error:any) {
+  } catch (error: any) {
     console.error(`Failed to log-in user ${error?.message}`);
     res.status(500).json({ success: false, message: "Failed to log in user." });
   }

@@ -8,11 +8,20 @@ import {
   InputGroup,
 } from "@/components/ui/input-group";
 import { logOut } from "@/api/endpoints";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export const NavBar = () => {
-  const signOut = async ()=>{
-      await logOut.logout();
-    }; 
+  const navigate=useNavigate()
+  const signOut = async () => {
+    const res= await logOut.logout();
+    if (res.data.success){
+      navigate("/login") 
+    toast.success("Successfully loged out.")}
+    else{
+      toast.error("Failed to logout user.")
+    }
+  };
   return (
     <nav className="sticky p-3.5 border">
       <div className="flex align-middle justify-between">
@@ -44,15 +53,14 @@ export const NavBar = () => {
                 </Button>
               }
               formType="Create New Task"
-              
             ></TaskInputForm>
           </li>
           <li>
             <ModeToggle />
           </li>
           <li>
-            <Button type="button">
-              <LogOut onClick={signOut} />
+            <Button type="button" onClick={signOut}>
+              <LogOut />
             </Button>
           </li>
         </ul>

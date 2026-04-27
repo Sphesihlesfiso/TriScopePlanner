@@ -36,7 +36,6 @@ export const TaskHolder = ({ scope, due }: TaskHolderProps) => {
           .filter((task) => task.scope == scope)
           .map((task) => (
             <TaskCard
-            
               key={task.taskId}
               taskId={task.taskId}
               title={task.title}

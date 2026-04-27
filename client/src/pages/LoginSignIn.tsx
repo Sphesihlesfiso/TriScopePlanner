@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { signUpUser } from '../api/endpoints';
 
 
 export const LoginSignIn = () => {
@@ -29,13 +30,33 @@ export const LoginSignIn = () => {
     // const endPoint = !signUp ? "login" : "register";
     // console.log(endPoint)
     
-    const results=await loginUser.postUser({userName:userName,email:userEmail,password:password})
-    console.log(results)
-    if (results.status==200) {
+
+
+  
+    if (!signUp){
+          const results = await loginUser.postUser({
+            userName: userName,
+            email: userEmail,
+            password: password,
+          });
+    if (results.data.success) {
       navigate("/");
       toast.success("Succsesfully loged in.");
     } else {
       toast.error("Failed to log in, invalid credentials.");
+    }}else{
+        const res=await signUpUser.postUser({
+          userName: userName,
+          email: userEmail,
+          password: password,
+        });
+        if (res.data.success){
+          toast.success("Verify your email.")
+          navigate("/Email-verification")
+        }else{
+          //must do user already taken
+          toast.error("Failed to sign-up user.")
+        }
     }
   };
   return (

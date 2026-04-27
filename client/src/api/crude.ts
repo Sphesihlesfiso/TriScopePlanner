@@ -41,8 +41,11 @@ export function userCrude<T>(resourcesUrl?:string) {
       return results;
     },
     logout :async()=>{
-      await serverApi.post( `/${resourcesUrl}`)
+      return await serverApi.post( `/${resourcesUrl}`)
+    },
+    postToken :async(payload:object)=>{
+       const results = await serverApi.post(`/${resourcesUrl}`, payload);
+       return results;
     }
-
   };
 }
