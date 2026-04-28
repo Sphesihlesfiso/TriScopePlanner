@@ -36,7 +36,8 @@ import { postTask, editTask } from "@/api/endpoints";
 export const TaskInputForm = ({
   triggerButton,
   formType,
-  taskId
+  taskId,
+  title
 }: TaskInputFormProps) => {
   const today = new Date().toLocaleDateString();
   const [open, setOpen] = React.useState(false);
@@ -44,12 +45,12 @@ export const TaskInputForm = ({
 
   const [startTime, setStartTime] = React.useState("09:00");
   const [endTime, setEndTime] = React.useState("11:00");
-  const [title, setTaskTitle] = React.useState("");
+  const [t, setTaskTitle] = React.useState(title);
   const [scope, setScope] = React.useState("Daily");
   const [description, setTaskDescription] = React.useState("");
-
+  console.log(`this is the t ${t} ${taskId}`);
   function ValidateForm(): void {
-    if (title === "") {
+    if (t === "") {
       alert("Title cannot be empty");
     } else if (description === "") {
       alert("Description cannot be empty");
@@ -62,22 +63,20 @@ export const TaskInputForm = ({
     e.preventDefault();
 
     if (formType === "Edit Task") {
-      console.log('This is the tasks id ',taskId)
-      
       editTask.patchTask(taskId, {
         scope: scope,
         taskId: taskId,
-        title: title,
+        title: t,
         description: description,
         startTime: startTime,
         endTime: endTime,
       });
       toast.success("Changes saved");
     } else {
-      postTask.create( {
+      postTask.create({
         scope: scope,
         taskId: taskId,
-        title: title,
+        title: t,
         description: description,
         startTime: startTime,
         endTime: endTime,
@@ -96,13 +95,13 @@ export const TaskInputForm = ({
         <form onSubmit={Submit}>
           <div className="grid grid-rows-4 gap-0.5 items-center w-full">
             <div className="space-y-2">
-              <Label htmlFor="title">Title</Label>
+              <Label htmlFor="t">Title</Label>
               <Input
                 type="text"
-                placeholder="Enter task title..."
+                placeholder="Enter task t..."
                 required
                 onChange={(e) => setTaskTitle(e.target.value)}
-                value={title}
+                value={t}
               />
             </div>
             <div className="space-y-2">
@@ -203,7 +202,7 @@ export const TaskInputForm = ({
               <Button
                 onClick={ValidateForm}
                 type={
-                  title === "" ||
+                  t === "" ||
                   description === "" ||
                   parseInt(endTime.split(":").join("")) <=
                     parseInt(startTime.split(":").join(""))

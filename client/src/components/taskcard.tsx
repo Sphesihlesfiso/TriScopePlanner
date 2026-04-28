@@ -50,6 +50,7 @@ export const TaskCard = ({
             }
             formType="Edit Task"
             taskId={taskId}
+            title={title}
             
           />
       

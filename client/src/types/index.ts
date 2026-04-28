@@ -26,7 +26,8 @@ export type Task = {
 export type TaskInputFormProps = {
   triggerButton: React.ReactNode;
   formType: string;
-  taskId:number
+  taskId: number;
+  title: string;
 };
 export type User = {
   userName: string;
