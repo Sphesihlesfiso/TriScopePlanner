@@ -6,10 +6,11 @@ export type InputItemProps = {
 };
 export type TaskCardProps = {
   title: string;
-  task: string;
   startTime: string;
   endTime: string;
   taskId: number;
+  description:string
+  scope:string
 };
 export type TaskHolderProps = {
   scope: string;
@@ -28,6 +29,10 @@ export type TaskInputFormProps = {
   formType: string;
   taskId: number;
   title: string;
+  description: string;
+  startTime: string;
+  scope: string;
+  endTime: string;
 };
 export type User = {
   userName: string;

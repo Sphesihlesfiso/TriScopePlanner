@@ -37,24 +37,28 @@ export const TaskInputForm = ({
   triggerButton,
   formType,
   taskId,
-  title
+  description,
+  title,
+  startTime,
+  scope,
+  endTime,
 }: TaskInputFormProps) => {
   const today = new Date().toLocaleDateString();
-  const [open, setOpen] = React.useState(false);
+  const [startDateOpen, setOpen] = React.useState(false);
+  const [endDateOpen, setEndDateOpen] = React.useState(false);
   const [date, setDate] = React.useState<Date>(new Date());
 
-  const [startTime, setStartTime] = React.useState("09:00");
-  const [endTime, setEndTime] = React.useState("11:00");
-  const [t, setTaskTitle] = React.useState(title);
-  const [scope, setScope] = React.useState("Daily");
-  const [description, setTaskDescription] = React.useState("");
-  console.log(`this is the t ${t} ${taskId}`);
+  const [userStartTime, setStartTime] = React.useState(startTime);
+  const [userEndTime, setEndTime] = React.useState(endTime);
+  const [userTitle, setTaskTitle] = React.useState(title);
+  const [userScope, setScope] = React.useState(scope);
+  const [userDescription, setTaskDescription] = React.useState(description);
   function ValidateForm(): void {
-    if (t === "") {
+    if (userTitle === "") {
       alert("Title cannot be empty");
-    } else if (description === "") {
+    } else if (userDescription === "") {
       alert("Description cannot be empty");
-    } else if (endTime <= startTime) {
+    } else if (userEndTime <= userStartTime) {
       alert("End time cannot be earlier or equal to start time");
     }
   }
@@ -64,22 +68,22 @@ export const TaskInputForm = ({
 
     if (formType === "Edit Task") {
       editTask.patchTask(taskId, {
-        scope: scope,
+        scope: userScope,
         taskId: taskId,
-        title: t,
-        description: description,
-        startTime: startTime,
-        endTime: endTime,
+        title: userTitle,
+        description: userDescription,
+        startTime: userStartTime,
+        endTime: userEndTime,
       });
       toast.success("Changes saved");
     } else {
       postTask.create({
-        scope: scope,
+        scope: userScope,
         taskId: taskId,
-        title: t,
-        description: description,
-        startTime: startTime,
-        endTime: endTime,
+        title: userTitle,
+        description: userDescription,
+        startTime: userStartTime,
+        endTime: userEndTime,
       });
       toast.success("Task created");
     }
@@ -95,103 +99,140 @@ export const TaskInputForm = ({
         <form onSubmit={Submit}>
           <div className="grid grid-rows-4 gap-0.5 items-center w-full">
             <div className="space-y-2">
-              <Label htmlFor="t">Title</Label>
+              <Label htmlFor="userTitle">Title</Label>
               <Input
                 type="text"
-                placeholder="Enter task t..."
+                placeholder="Enter task Title..."
                 required
                 onChange={(e) => setTaskTitle(e.target.value)}
-                value={t}
+                value={userTitle}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="description">Description</Label>
+              <Label htmlFor="userDescription">Description</Label>
               <Textarea
                 required
                 placeholder="Enter task Description..."
                 onChange={(e) => setTaskDescription(e.target.value)}
-                value={description}
+                value={userDescription}
               />
             </div>
+
             <div className="flex gap-2 w-full justify-between">
-              <div className="flex  flex-1/2 flex-col gap-2">
-                <Label htmlFor="description">Due Date</Label>
-                <Popover open={open} onOpenChange={setOpen}>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      id="date-picker"
-                      className="justify-between font-normal"
-                    >
-                      {date ? date.toLocaleDateString() : today}
-                      <ChevronDownIcon />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent
-                    className="w-auto overflow-hidden p-0"
-                    align="start"
-                  >
-                    <Calendar
-                      mode="single"
-                      selected={date}
-                      hideNavigation={true}
-                      disabled={(date) => date < new Date()}
-                      onSelect={(d) => {
-                        if (d) {
-                          setDate(d);
-                          setOpen(false);
-                        }
-                      }}
-                    />
-                  </PopoverContent>
-                </Popover>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="userDescription">Scope</Label>
+                <Select onValueChange={(value) => setScope(value)}>
+                  <SelectTrigger className="flex w-full">
+                    <SelectValue placeholder="Daily" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="Daily">Daily</SelectItem>
+                      <SelectItem value="Weekly">Weekly</SelectItem>
+                      <SelectItem value="Monthly">Monthly</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
               </div>
-              <div className="flex ">
-                <div className="flex gap-2">
-                  <div className="flex flex-col gap-2 ">
-                    <Label htmlFor="time-picker" className="px-1">
-                      Start Time
-                    </Label>
-                    <Input
-                      type="time"
-                      id="time-picker"
-                      value={startTime}
-                      onChange={(e) => setStartTime(e.target.value)}
-                      defaultValue={startTime}
-                      required
-                      className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
-                    />
+              {userScope != "Daily" && (
+                <div className="flex flex-row gap-2">
+                  <div className="flex  flex-1/2 flex-col gap-2">
+                    <Label htmlFor="userDescription">Start Date</Label>
+                    <Popover open={startDateOpen} onOpenChange={setOpen}>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          id="date-picker"
+                          className="justify-between font-normal"
+                        >
+                          {date ? date.toLocaleDateString() : today}
+                          <ChevronDownIcon />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent
+                        className="w-auto overflow-hidden p-0"
+                        align="start"
+                      >
+                        <Calendar
+                          mode="single"
+                          selected={date}
+                          hideNavigation={true}
+                          disabled={(date) => date < new Date()}
+                          onSelect={(d) => {
+                            if (d) {
+                              setDate(d);
+                              setOpen(false);
+                            }
+                          }}
+                        />
+                      </PopoverContent>
+                    </Popover>
                   </div>
-                  <div className="flex flex-1 flex-col gap-2">
-                    <Label htmlFor="time-picker" className="px-1">
-                      End Time
-                    </Label>
-                    <Input
-                      type="time"
-                      id="time-picker"
-                      defaultValue={endTime}
-                      onChange={(e) => setEndTime(e.target.value)}
-                      className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
-                    />
+                  <div className="flex  flex-1/2 flex-col gap-2">
+                    <Label htmlFor="userDescription">Start Date</Label>
+                    <Popover open={endDateOpen} onOpenChange={setEndDateOpen}>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          id="date-picker"
+                          className="justify-between font-normal"
+                        >
+                          {date ? date.toLocaleDateString() : today}
+                          <ChevronDownIcon />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent
+                        className="w-auto overflow-hidden p-0"
+                        align="start"
+                      >
+                        <Calendar
+                          mode="single"
+                          selected={date}
+                          hideNavigation={true}
+                          disabled={(date) => date < new Date()}
+                          onSelect={(d) => {
+                            if (d) {
+                              setDate(d);
+                              setOpen(false);
+                            }
+                          }}
+                        />
+                      </PopoverContent>
+                    </Popover>
                   </div>
                 </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="description">Scope</Label>
-              <Select value={scope} onValueChange={(value) => setScope(value)}>
-                <SelectTrigger className="flex w-full">
-                  <SelectValue placeholder="Daily(tactical)" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="Daily">Daily</SelectItem>
-                    <SelectItem value="Weekly">Weekly</SelectItem>
-                    <SelectItem value="Monthly">Monthly</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+              )}
+              {userScope == "Daily" && (
+                <div className="flex ">
+                  <div className="flex gap-2">
+                    <div className="flex flex-col gap-2 ">
+                      <Label htmlFor="time-picker" className="px-1">
+                        Start Time
+                      </Label>
+                      <Input
+                        type="time"
+                        id="time-picker"
+                        onChange={(e) => setStartTime(e.target.value)}
+                        defaultValue={userStartTime}
+                        required
+                        className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+                      />
+                    </div>
+                    <div className="flex flex-1 flex-col gap-2">
+                      <Label htmlFor="time-picker" className="px-1">
+                        Finish Time
+                      </Label>
+                      <Input
+                        type="time"
+                        id="time-picker"
+                        onChange={(e) => setEndTime(e.target.value)}
+                        defaultValue={userEndTime}
+                        className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
           <DialogFooter>
@@ -202,10 +243,10 @@ export const TaskInputForm = ({
               <Button
                 onClick={ValidateForm}
                 type={
-                  t === "" ||
-                  description === "" ||
-                  parseInt(endTime.split(":").join("")) <=
-                    parseInt(startTime.split(":").join(""))
+                  userTitle === "" ||
+                  userDescription === "" ||
+                  parseInt(userEndTime.split(":").join("")) <=
+                    parseInt(userStartTime.split(":").join(""))
                     ? "button"
                     : "submit"
                 }

@@ -18,6 +18,7 @@ export const TaskHolder = ({ scope, due }: TaskHolderProps) => {
     const fetchAllTasks = async()=>{
     await getTasks.getAll().then((response)=>{
       setUserTasks(response)
+      console.log(response)
     });
     }
     
@@ -39,9 +40,11 @@ export const TaskHolder = ({ scope, due }: TaskHolderProps) => {
               key={task.taskId}
               taskId={task.taskId}
               title={task.title}
-              task={task.description}
+              
               startTime={task.startTime}
               endTime={task.endTime}
+              description={task.description}
+              scope={task.scope}
             />
           ))}
       </CardContent>

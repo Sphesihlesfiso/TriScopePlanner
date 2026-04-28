@@ -3,22 +3,18 @@ import { Button } from "./ui/button";
 
 import { TaskInputForm } from "./TaskInputForm";
 
-
-
 import type { TaskCardProps } from "@/types";
-
-
 
 import { deleteTaskById } from "@/api/endpoints";
 
 export const TaskCard = ({
   title,
-  task,
   startTime,
   endTime,
   taskId,
+  description,
+  scope
 }: TaskCardProps) => {
-  
   return (
     <div className="grid grid-rows-2 gap-3 border p-3 rounded-2xl mb-1.5">
       <ul className="flex justify-between gap-1.5">
@@ -44,16 +40,19 @@ export const TaskCard = ({
 
           <TaskInputForm
             triggerButton={
-              <Button >
+              <Button>
                 <Edit />
               </Button>
             }
             formType="Edit Task"
             taskId={taskId}
+            description={description}
             title={title}
-            
+            startTime={startTime}
+            scope={scope}
+            endTime={endTime}
           />
-      
+
           <Button
             onClick={async () => {
               await deleteTaskById.delete(taskId);
@@ -64,7 +63,7 @@ export const TaskCard = ({
         </div>
       </ul>
 
-      <div>{task}</div>
+      <div>{description}</div>
     </div>
   );
 };
