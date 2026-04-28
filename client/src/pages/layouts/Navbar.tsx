@@ -14,57 +14,66 @@ interface NavBarProps {
 export const NavBar = ({ onRefresh }: NavBarProps) => {
   const navigate = useNavigate();
 
-  const signOut = async (e: React.FormEvent<HTMLElement>) => {
+  const signOut = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const res = await logOut.logout();
     if (res.data.success) {
       navigate("/login");
-      toast.success("Successfully loged out.");
+      toast.success("Successfully logged out.");
     } else {
       toast.error("Failed to logout user.");
     }
   };
 
   return (
-    <nav className="sticky p-3.5 border">
-      <div className="flex align-middle justify-between">
-        <ul className="flex gap-1.5 md:gap-4 items-center">
-          <li className="hidden sm:hidden md:block lg:block">
-            <Button>
-              <Target />
-            </Button>
-          </li>
-          <li>
-            <h1 className="lg:text-3xl font-bold">Tri-Scope Planner</h1>
-          </li>
-        </ul>
-        <ul className="flex flex-row gap-0.5 lg:gap-4 items-center">
-          <li>
-            <TaskInputForm
-              triggerButton={
-                <Button className="sm:gap-0.5 md:flex flex-row gap-1.5">
-                  <PlusIcon /> New Task
-                </Button>
-              }
-              formType="Create New Task"
-              taskId={0}
-              description=""
-              title=""
-              startTime=""
-              scope=""
-              endTime=""
-              onSuccess={onRefresh}
-            />
-          </li>
-          <li>
-            <ModeToggle />
-          </li>
-          <li>
-            <Button type="button" onClick={signOut}>
-              <LogOut />
-            </Button>
-          </li>
-        </ul>
+    <nav className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-sm px-4 md:px-6 py-3">
+      <div className="flex items-center justify-between gap-4">
+        {/* Left — logo + title */}
+        <div className="flex items-center gap-2.5">
+          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary text-primary-foreground shrink-0">
+            <Target size={16} />
+          </div>
+          <div className="flex flex-col leading-tight">
+            <span className="font-bold text-sm md:text-base tracking-tight">
+              Tri-Scope
+            </span>
+            <span className="hidden md:block text-[10px] text-muted-foreground tracking-widest uppercase">
+              Planner
+            </span>
+          </div>
+        </div>
+
+        {/* Right — actions */}
+        <div className="flex items-center gap-1.5 md:gap-2">
+          <TaskInputForm
+            triggerButton={
+              <Button size="sm" className="gap-1.5 font-medium">
+                <PlusIcon size={15} />
+                <span className="hidden sm:inline">New Task</span>
+              </Button>
+            }
+            formType="Create New Task"
+            taskId={0}
+            description=""
+            title=""
+            startTime=""
+            scope=""
+            endTime=""
+            onSuccess={onRefresh}
+          />
+
+          <ModeToggle />
+
+          <Button
+            size="icon"
+            variant="ghost"
+            className="text-muted-foreground hover:text-destructive transition-colors"
+            onClick={signOut}
+            title="Sign out"
+          >
+            <LogOut size={16} />
+          </Button>
+        </div>
       </div>
     </nav>
   );
