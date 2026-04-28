@@ -12,19 +12,18 @@ import { getTasks } from "@/api/endpoints"
 import { useEffect,useState } from "react";
 import type { Task } from '../types/index';
 
-export const TaskHolder = ({ scope, due }: TaskHolderProps) => {
+export const TaskHolder = ({ scope, due, refreshKey, onRefresh }: TaskHolderProps) => {
   const [userTasks, setUserTasks] = useState<Task[]>([]);
-  useEffect ( () => {
-    const fetchAllTasks = async()=>{
-    await getTasks.getAll().then((response)=>{
-      setUserTasks(response)
-    });
-    }
-    
+  useEffect(() => {
+    const fetchAllTasks = async () => {
+      await getTasks.getAll().then((response) => {
+        setUserTasks(response);
+      });
+    };
+
     fetchAllTasks();
-  },[])
-  
-  
+  }, [refreshKey]);
+
   return (
     <Card className="w-full h-screen  border rounded-2xl">
       <CardHeader className="border-b">
@@ -39,11 +38,11 @@ export const TaskHolder = ({ scope, due }: TaskHolderProps) => {
               key={task.taskId}
               taskId={task.taskId}
               title={task.title}
-              
               startTime={task.startTime}
               endTime={task.endTime}
               description={task.description}
               scope={task.scope}
+              onRefresh={onRefresh}
             />
           ))}
       </CardContent>

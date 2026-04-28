@@ -13,7 +13,8 @@ export const TaskCard = ({
   endTime,
   taskId,
   description,
-  scope
+  scope,
+  onRefresh
 }: TaskCardProps) => {
   return (
     <div className="grid grid-rows-2 gap-3 border p-3 rounded-2xl mb-1.5">
@@ -51,10 +52,12 @@ export const TaskCard = ({
             startTime={startTime}
             scope={scope}
             endTime={endTime}
+            onSuccess={onRefresh}
           />
           <Button
             onClick={async () => {
               await deleteTaskById.delete(taskId);
+              onRefresh();
             }}
           >
             <Trash />

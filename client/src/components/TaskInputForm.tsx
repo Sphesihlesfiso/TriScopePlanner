@@ -42,6 +42,7 @@ export const TaskInputForm = ({
   startTime,
   endTime,
   scope,
+  onSuccess,
 }: TaskInputFormProps) => {
   const [open, setOpen] = React.useState(false);
 
@@ -60,19 +61,30 @@ export const TaskInputForm = ({
   const [userScope, setScope] = React.useState(scope === "" ? "Daily" : scope);
   const [userDescription, setTaskDescription] = React.useState(description);
 
+  // Sync form state with latest props every time the dialog opens
+  React.useEffect(() => {
+    if (open) {
+      setTaskTitle(title);
+      setTaskDescription(description);
+      setScope(scope === "" ? "Daily" : scope);
+      setStartTime(startTime === "" ? "09:00" : startTime);
+      setEndTime(endTime === "" ? "10:00" : endTime);
+      setStartDate(new Date());
+      setEndDate(new Date());
+    }
+  }, [open]);
+
   const formatDate = (d: Date) =>
     `${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 
   const Submit = async (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
 
-    // Validate daily times
     if (userScope === "Daily" && userEndTime <= userStartTime) {
       toast.error("Finish time must be after start time");
       return;
     }
 
-    // Validate date range for Weekly/Monthly
     if (userScope !== "Daily" && endDate < startDate) {
       toast.error("Due date must be on or after start date");
       return;
@@ -84,7 +96,7 @@ export const TaskInputForm = ({
       userScope === "Daily" ? userEndTime : formatDate(endDate);
 
     if (formType === "Edit Task") {
-      editTask.patchTask(taskId, {
+      await editTask.patchTask(taskId, {
         scope: userScope,
         taskId: taskId,
         title: userTitle,
@@ -94,7 +106,7 @@ export const TaskInputForm = ({
       });
       toast.success("Changes saved");
     } else {
-      postTask.create({
+      await postTask.create({
         scope: userScope,
         taskId: taskId,
         title: userTitle,
@@ -105,6 +117,7 @@ export const TaskInputForm = ({
       toast.success("Task created");
     }
 
+    onSuccess?.();
     setOpen(false);
   };
 
@@ -141,6 +154,7 @@ export const TaskInputForm = ({
               <div className="flex flex-col gap-2">
                 <Label htmlFor="userScope">Scope</Label>
                 <Select
+                  key={userScope}
                   defaultValue={userScope}
                   onValueChange={(value) => setScope(value)}
                   required={true}
@@ -272,7 +286,6 @@ export const TaskInputForm = ({
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
-            {/* No DialogClose here — dialog only closes after validation passes in Submit */}
             <Button type="submit">
               {formType === "Edit Task" ? "Save changes" : "Create Task"}
             </Button>

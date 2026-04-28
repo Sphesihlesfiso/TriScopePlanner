@@ -9,13 +9,15 @@ export type TaskCardProps = {
   startTime: string;
   endTime: string;
   taskId: number;
-  description:string
-  scope:string
+  description: string;
+  scope: string;
+  onRefresh: () => void;
 };
 export type TaskHolderProps = {
   scope: string;
   due: string;
-  
+  refreshKey: number;
+  onRefresh: () => void;
 };
 export type Task = {
   taskId: number;
@@ -34,6 +36,7 @@ export type TaskInputFormProps = {
   startTime: string;
   scope: string;
   endTime: string;
+  onSuccess?: () => void;
 };
 export type User = {
   userName: string;
