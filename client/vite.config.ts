@@ -12,6 +12,6 @@ export default defineConfig({
     },
   },
   server: {
-    allowedHosts: ["http://localhost:3000"],
+    allowedHosts: [import.meta.env.VITE_ALLOWED_HOST],
   },
 });
