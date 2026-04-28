@@ -8,6 +8,9 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
+  
+
+    "baseUrl": "./src",
     "paths": {
       "@controllers/*": ["controllers/*"],
       "@models/*": ["models/*"],
