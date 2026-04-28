@@ -42,6 +42,8 @@ export const TaskInputForm = ({
   startTime,
   scope,
   endTime,
+ 
+  
 }: TaskInputFormProps) => {
   const today = new Date().toLocaleDateString();
   const [startDateOpen, setOpen] = React.useState(false);
@@ -53,15 +55,15 @@ export const TaskInputForm = ({
   const [userTitle, setTaskTitle] = React.useState(title);
   const [userScope, setScope] = React.useState(scope);
   const [userDescription, setTaskDescription] = React.useState(description);
-  function ValidateForm(): void {
-    if (userTitle === "") {
-      alert("Title cannot be empty");
-    } else if (userDescription === "") {
-      alert("Description cannot be empty");
-    } else if (userEndTime <= userStartTime) {
-      alert("End time cannot be earlier or equal to start time");
-    }
-  }
+  // function ValidateForm(): void {
+  //   if (userTitle === "") {
+  //     alert("Title cannot be empty");
+  //   } else if (userDescription === "") {
+  //     alert("Description cannot be empty");
+  //   } else if (userEndTime <= userStartTime) {
+  //     alert("End time cannot be earlier or equal to start time");
+  //   }
+  // }
 
   const Submit = async (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
@@ -86,13 +88,15 @@ export const TaskInputForm = ({
         endTime: userEndTime,
       });
       toast.success("Task created");
+
     }
+  
   };
 
   return (
     <Dialog>
       <DialogTrigger asChild>{triggerButton}</DialogTrigger>
-      <DialogContent className="">
+      <DialogContent >
         <DialogHeader>
           <DialogTitle>{formType}</DialogTitle>
         </DialogHeader>
@@ -121,12 +125,13 @@ export const TaskInputForm = ({
             <div className="flex gap-2 w-full justify-between">
               <div className="flex flex-col gap-2">
                 <Label htmlFor="userDescription">Scope</Label>
-                <Select onValueChange={(value) => setScope(value)}>
+                <Select onValueChange={(value) => setScope(value) } required={true}>
+                
                   <SelectTrigger className="flex w-full">
                     <SelectValue placeholder="Daily" />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
+                  <SelectContent >
+                    <SelectGroup >
                       <SelectItem value="Daily">Daily</SelectItem>
                       <SelectItem value="Weekly">Weekly</SelectItem>
                       <SelectItem value="Monthly">Monthly</SelectItem>
@@ -169,7 +174,7 @@ export const TaskInputForm = ({
                     </Popover>
                   </div>
                   <div className="flex  flex-1/2 flex-col gap-2">
-                    <Label htmlFor="userDescription">Start Date</Label>
+                    <Label htmlFor="userDescription">Due Date</Label>
                     <Popover open={endDateOpen} onOpenChange={setEndDateOpen}>
                       <PopoverTrigger asChild>
                         <Button
@@ -241,15 +246,9 @@ export const TaskInputForm = ({
             </DialogClose>
             <DialogClose asChild>
               <Button
-                onClick={ValidateForm}
-                type={
-                  userTitle === "" ||
-                  userDescription === "" ||
-                  parseInt(userEndTime.split(":").join("")) <=
-                    parseInt(userStartTime.split(":").join(""))
-                    ? "button"
-                    : "submit"
-                }
+                
+                type="submit" 
+              
               >
                 {formType === "Edit Task" ? "Save changes" : "Create Task"}
               </Button>

@@ -18,7 +18,6 @@ export const TaskHolder = ({ scope, due }: TaskHolderProps) => {
     const fetchAllTasks = async()=>{
     await getTasks.getAll().then((response)=>{
       setUserTasks(response)
-      console.log(response)
     });
     }
     

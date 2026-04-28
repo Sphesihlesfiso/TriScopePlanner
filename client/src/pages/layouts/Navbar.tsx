@@ -1,12 +1,12 @@
-import { Target, PlusIcon, LogOut, SearchIcon } from "lucide-react";
+import { Target, PlusIcon, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
 import { TaskInputForm } from "@/components/TaskInputForm";
-import {
-  InputGroupAddon,
-  InputGroupInput,
-  InputGroup,
-} from "@/components/ui/input-group";
+// import {
+//   InputGroupAddon,
+//   InputGroupInput,
+//   InputGroup,
+// } from "@/components/ui/input-group";
 import { logOut } from "@/api/endpoints";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -39,14 +39,14 @@ export const NavBar = () => {
           </li>
         </ul>
         <ul className="flex flex-row gap-0.5 lg:gap-4 items-center ">
-          <li>
+          {/* <li>
             <InputGroup>
               <InputGroupInput placeholder="Search..." />
               <InputGroupAddon>
                 <SearchIcon />
               </InputGroupAddon>
             </InputGroup>
-          </li>
+          </li> */}
           <li>
             <TaskInputForm
               triggerButton={
@@ -61,6 +61,7 @@ export const NavBar = () => {
               startTime=""
               scope=""
               endTime=""
+
             ></TaskInputForm>
           </li>
           <li>

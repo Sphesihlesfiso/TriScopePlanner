@@ -15,6 +15,7 @@ export type TaskCardProps = {
 export type TaskHolderProps = {
   scope: string;
   due: string;
+  
 };
 export type Task = {
   taskId: number;
