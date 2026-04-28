@@ -1,5 +1,5 @@
 import express from "express";
-import { dataBase } from "config/db";
+import { dataBase } from "./config/db";
 import dotenv from "dotenv";
 import cors from "cors";
 import homeRoutes from "routes/home.routes";
@@ -11,7 +11,7 @@ const app = express();
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://tri-scope-planner.vercel.app/",
     credentials: true,
   }),
 );
