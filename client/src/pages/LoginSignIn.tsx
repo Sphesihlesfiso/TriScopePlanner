@@ -25,10 +25,6 @@ export const LoginSignIn = () => {
   const navigate = useNavigate();
   const Submit = async (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
-
-    // const endPoint = !signUp ? "login" : "register";
-    // console.log(endPoint)
-
     if (!signUp) {
       const results = await loginUser.postUser({
         userName: userName,

@@ -40,33 +40,48 @@ export const TaskInputForm = ({
   description,
   title,
   startTime,
-  scope,
   endTime,
- 
-  
+  scope,
 }: TaskInputFormProps) => {
-  const today = new Date().toLocaleDateString();
-  const [startDateOpen, setOpen] = React.useState(false);
-  const [endDateOpen, setEndDateOpen] = React.useState(false);
-  const [date, setDate] = React.useState<Date>(new Date());
+  const [open, setOpen] = React.useState(false);
 
-  const [userStartTime, setStartTime] = React.useState(startTime);
-  const [userEndTime, setEndTime] = React.useState(endTime);
+  const [startDate, setStartDate] = React.useState<Date>(new Date());
+  const [endDate, setEndDate] = React.useState<Date>(new Date());
+  const [startDateOpen, setStartDateOpen] = React.useState(false);
+  const [endDateOpen, setEndDateOpen] = React.useState(false);
+
+  const [userStartTime, setStartTime] = React.useState<string>(
+    startTime === "" ? "09:00" : startTime,
+  );
+  const [userEndTime, setEndTime] = React.useState(
+    endTime === "" ? "10:00" : endTime,
+  );
   const [userTitle, setTaskTitle] = React.useState(title);
-  const [userScope, setScope] = React.useState(scope);
+  const [userScope, setScope] = React.useState(scope === "" ? "Daily" : scope);
   const [userDescription, setTaskDescription] = React.useState(description);
-  // function ValidateForm(): void {
-  //   if (userTitle === "") {
-  //     alert("Title cannot be empty");
-  //   } else if (userDescription === "") {
-  //     alert("Description cannot be empty");
-  //   } else if (userEndTime <= userStartTime) {
-  //     alert("End time cannot be earlier or equal to start time");
-  //   }
-  // }
+
+  const formatDate = (d: Date) =>
+    `${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 
   const Submit = async (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
+
+    // Validate daily times
+    if (userScope === "Daily" && userEndTime <= userStartTime) {
+      toast.error("Finish time must be after start time");
+      return;
+    }
+
+    // Validate date range for Weekly/Monthly
+    if (userScope !== "Daily" && endDate < startDate) {
+      toast.error("Due date must be on or after start date");
+      return;
+    }
+
+    const resolvedStartTime =
+      userScope === "Daily" ? userStartTime : formatDate(startDate);
+    const resolvedEndTime =
+      userScope === "Daily" ? userEndTime : formatDate(endDate);
 
     if (formType === "Edit Task") {
       editTask.patchTask(taskId, {
@@ -74,8 +89,8 @@ export const TaskInputForm = ({
         taskId: taskId,
         title: userTitle,
         description: userDescription,
-        startTime: userStartTime,
-        endTime: userEndTime,
+        startTime: resolvedStartTime,
+        endTime: resolvedEndTime,
       });
       toast.success("Changes saved");
     } else {
@@ -84,19 +99,19 @@ export const TaskInputForm = ({
         taskId: taskId,
         title: userTitle,
         description: userDescription,
-        startTime: userStartTime,
-        endTime: userEndTime,
+        startTime: resolvedStartTime,
+        endTime: resolvedEndTime,
       });
       toast.success("Task created");
-
     }
-  
+
+    setOpen(false);
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{triggerButton}</DialogTrigger>
-      <DialogContent >
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>{formType}</DialogTitle>
         </DialogHeader>
@@ -124,14 +139,17 @@ export const TaskInputForm = ({
 
             <div className="flex gap-2 w-full justify-between">
               <div className="flex flex-col gap-2">
-                <Label htmlFor="userDescription">Scope</Label>
-                <Select onValueChange={(value) => setScope(value) } required={true}>
-                
+                <Label htmlFor="userScope">Scope</Label>
+                <Select
+                  defaultValue={userScope}
+                  onValueChange={(value) => setScope(value)}
+                  required={true}
+                >
                   <SelectTrigger className="flex w-full">
                     <SelectValue placeholder="Daily" />
                   </SelectTrigger>
-                  <SelectContent >
-                    <SelectGroup >
+                  <SelectContent>
+                    <SelectGroup>
                       <SelectItem value="Daily">Daily</SelectItem>
                       <SelectItem value="Weekly">Weekly</SelectItem>
                       <SelectItem value="Monthly">Monthly</SelectItem>
@@ -139,18 +157,23 @@ export const TaskInputForm = ({
                   </SelectContent>
                 </Select>
               </div>
-              {userScope != "Daily" && (
+
+              {userScope !== "Daily" && (
                 <div className="flex flex-row gap-2">
-                  <div className="flex  flex-1/2 flex-col gap-2">
-                    <Label htmlFor="userDescription">Start Date</Label>
-                    <Popover open={startDateOpen} onOpenChange={setOpen}>
+                  {/* Start Date */}
+                  <div className="flex flex-1/2 flex-col gap-2">
+                    <Label>Start Date</Label>
+                    <Popover
+                      open={startDateOpen}
+                      onOpenChange={setStartDateOpen}
+                    >
                       <PopoverTrigger asChild>
                         <Button
                           variant="outline"
-                          id="date-picker"
+                          id="start-date-picker"
                           className="justify-between font-normal"
                         >
-                          {date ? date.toLocaleDateString() : today}
+                          {startDate.toLocaleDateString()}
                           <ChevronDownIcon />
                         </Button>
                       </PopoverTrigger>
@@ -160,29 +183,32 @@ export const TaskInputForm = ({
                       >
                         <Calendar
                           mode="single"
-                          selected={date}
+                          selected={startDate}
                           hideNavigation={true}
-                          disabled={(date) => date < new Date()}
+                          disabled={(d) => d < new Date()}
                           onSelect={(d) => {
                             if (d) {
-                              setDate(d);
-                              setOpen(false);
+                              setStartDate(d);
+                              if (d > endDate) setEndDate(d);
+                              setStartDateOpen(false);
                             }
                           }}
                         />
                       </PopoverContent>
                     </Popover>
                   </div>
-                  <div className="flex  flex-1/2 flex-col gap-2">
-                    <Label htmlFor="userDescription">Due Date</Label>
+
+                  {/* Due Date */}
+                  <div className="flex flex-1/2 flex-col gap-2">
+                    <Label>Due Date</Label>
                     <Popover open={endDateOpen} onOpenChange={setEndDateOpen}>
                       <PopoverTrigger asChild>
                         <Button
                           variant="outline"
-                          id="date-picker"
+                          id="end-date-picker"
                           className="justify-between font-normal"
                         >
-                          {date ? date.toLocaleDateString() : today}
+                          {endDate.toLocaleDateString()}
                           <ChevronDownIcon />
                         </Button>
                       </PopoverTrigger>
@@ -192,13 +218,13 @@ export const TaskInputForm = ({
                       >
                         <Calendar
                           mode="single"
-                          selected={date}
+                          selected={endDate}
                           hideNavigation={true}
-                          disabled={(date) => date < new Date()}
+                          disabled={(d) => d < startDate}
                           onSelect={(d) => {
                             if (d) {
-                              setDate(d);
-                              setOpen(false);
+                              setEndDate(d);
+                              setEndDateOpen(false);
                             }
                           }}
                         />
@@ -207,31 +233,33 @@ export const TaskInputForm = ({
                   </div>
                 </div>
               )}
-              {userScope == "Daily" && (
-                <div className="flex ">
+
+              {userScope === "Daily" && (
+                <div className="flex">
                   <div className="flex gap-2">
-                    <div className="flex flex-col gap-2 ">
-                      <Label htmlFor="time-picker" className="px-1">
+                    <div className="flex flex-col gap-2">
+                      <Label htmlFor="start-time-picker" className="px-1">
                         Start Time
                       </Label>
                       <Input
                         type="time"
-                        id="time-picker"
+                        id="start-time-picker"
                         onChange={(e) => setStartTime(e.target.value)}
-                        defaultValue={userStartTime}
+                        value={userStartTime}
                         required
                         className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
                       />
                     </div>
                     <div className="flex flex-1 flex-col gap-2">
-                      <Label htmlFor="time-picker" className="px-1">
+                      <Label htmlFor="end-time-picker" className="px-1">
                         Finish Time
                       </Label>
                       <Input
                         type="time"
-                        id="time-picker"
+                        id="end-time-picker"
                         onChange={(e) => setEndTime(e.target.value)}
-                        defaultValue={userEndTime}
+                        value={userEndTime}
+                        required
                         className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
                       />
                     </div>
@@ -244,15 +272,10 @@ export const TaskInputForm = ({
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
-            <DialogClose asChild>
-              <Button
-                
-                type="submit" 
-              
-              >
-                {formType === "Edit Task" ? "Save changes" : "Create Task"}
-              </Button>
-            </DialogClose>
+            {/* No DialogClose here — dialog only closes after validation passes in Submit */}
+            <Button type="submit">
+              {formType === "Edit Task" ? "Save changes" : "Create Task"}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

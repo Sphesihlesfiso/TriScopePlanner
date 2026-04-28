@@ -1,4 +1,4 @@
-import { Trash, Edit, Calendar, Clock } from "lucide-react";
+import { Trash, Edit, CalendarClock, Clock } from "lucide-react";
 import { Button } from "./ui/button";
 
 import { TaskInputForm } from "./TaskInputForm";
@@ -17,27 +17,27 @@ export const TaskCard = ({
 }: TaskCardProps) => {
   return (
     <div className="grid grid-rows-2 gap-3 border p-3 rounded-2xl mb-1.5">
-      <ul className="flex justify-between gap-1.5">
-        <li>{title}</li>
-        <li>
-          <ul className="flex gap-1 align-middle justify-center">
-            <li>
-              <Clock />
-            </li>
-            <li>
-              <p>{startTime}</p>
-            </li>
-            -
-            <li>
-              <p>{endTime}</p>
-            </li>
-          </ul>
-        </li>
-        <div className="flex align-middle gap-1">
-          <Button>
-            <Calendar />
-          </Button>
+      <div className="grid grid-cols-[1fr_auto_auto] items-center gap-2">
+        <span className="truncate">{title}</span>
 
+        <ul className="flex gap-1 items-center">
+          <li>
+            {scope === "Daily" ? (
+              <Clock size={16} />
+            ) : (
+              <CalendarClock size={16} />
+            )}
+          </li>
+          <li>
+            <p>{startTime}</p>
+          </li>
+          <li>-</li>
+          <li>
+            <p>{endTime}</p>
+          </li>
+        </ul>
+
+        <div className="flex items-center gap-1">
           <TaskInputForm
             triggerButton={
               <Button>
@@ -52,7 +52,6 @@ export const TaskCard = ({
             scope={scope}
             endTime={endTime}
           />
-
           <Button
             onClick={async () => {
               await deleteTaskById.delete(taskId);
@@ -61,8 +60,7 @@ export const TaskCard = ({
             <Trash />
           </Button>
         </div>
-      </ul>
-
+      </div>
       <div>{description}</div>
     </div>
   );
