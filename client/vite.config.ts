@@ -11,7 +11,4 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  server: {
-    allowedHosts: [import.meta.env.VITE_ALLOWED_HOST],
-  },
 });
