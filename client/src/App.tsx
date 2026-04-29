@@ -4,7 +4,7 @@ import { LoginSignIn } from "./pages/LoginSignIn";
 import { Route, Routes } from "react-router-dom";
 import { InputOTPForm } from "./pages/VerifyEmail";
 import { ResertPasswordCard } from "./pages/PassowordResert";
-import { NewPassword } from "./pages/Newpassword";
+import { CreatePassword } from "./pages/Newpassword";
 export const App = () => {
   return (
     <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
@@ -38,7 +38,7 @@ export const App = () => {
           path="/reset-password/:resertToken"
           element={
             <div className="flex items-center justify-center h-screen ">
-              <NewPassword />
+              <CreatePassword />
             </div>
           }
         />

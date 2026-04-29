@@ -24,7 +24,7 @@ const passwordRules = [
   },
 ];
 
-export const NewPassword = () => {
+export  const CreatePassword = () => {
   const { resertToken } = useParams<{ resertToken: string }>(); // Grabs token from URL
   const navigate = useNavigate();
 
