@@ -12,7 +12,7 @@ const app = express();
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://tri-scope-planner.vercel.app/",
+    origin: "https://triscopeplanner-production.up.railway.app",
     credentials: true,
   }),
 );
