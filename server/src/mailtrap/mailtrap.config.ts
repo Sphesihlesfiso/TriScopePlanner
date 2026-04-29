@@ -10,6 +10,6 @@ export const mailTrapClient = new MailtrapClient({
 });
 
 export const sender = {
-  email: "noreply@triscopeplaner.xyz",
+  email: "hello@triscopeplaner.xyz",
   name: "Tri-Scope",
 };
