@@ -1,5 +1,7 @@
+
 import { serverApi } from "@/lib/axios";
 import type { ServerRes, } from "../types/api";
+
 
 export function crudeOperations<T>(resourcesUrl?: string) {
   return {
@@ -43,8 +45,8 @@ export function userCrude<T>(resourcesUrl?:string) {
     logout :async()=>{
       return await serverApi.post( `/${resourcesUrl}`)
     },
-    postToken :async(payload:object)=>{
-       const results = await serverApi.post(`/${resourcesUrl}`, payload);
+    postToken :async(payload:object,verifyToken:string)=>{
+       const results = await serverApi.post(`/${resourcesUrl}/${verifyToken}`, payload);
        return results;
     }
   };

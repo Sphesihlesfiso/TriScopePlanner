@@ -29,7 +29,7 @@ export const InputOTPForm =()=> {
     e.preventDefault();
     const result = await verifyUserEmail.postToken({
       verificationToken: veificationToken,
-    });
+    },"");
     console.log(result.data)
     if (result.data.success) {
       navigate("/");

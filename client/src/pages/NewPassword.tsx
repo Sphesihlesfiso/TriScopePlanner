@@ -13,6 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { resertPassword } from "@/api/endpoints";
+
 const passwordRules = [
   { label: "At least 6 characters", test: (p: string) => p.length >= 6 },
   { label: "One uppercase letter", test: (p: string) => /[A-Z]/.test(p) },
@@ -48,7 +49,7 @@ export const CreatePassword = () => {
       const res = await resertPassword.postToken({
         resertToken: resertToken,
         newPassword: password,
-      });
+      },resertToken!);
 
       if (res.data.success) {
         toast.success("Password reset successfully!");
