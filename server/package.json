@@ -3,7 +3,8 @@
     "@controllers": "dist/controllers",
     "@models": "dist/models",
     "@services": "dist/services",
-    "config": "dist/config"
+    "config": "dist/config",
+    "routes": "dist/routes"
   },
   "name": "server",
   "version": "1.0.0",
