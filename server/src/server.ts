@@ -1,5 +1,6 @@
+import "module-alias/register";
 import express from "express";
-import { dataBase } from "./config/db";
+import { dataBase } from "config/db";
 import dotenv from "dotenv";
 import cors from "cors";
 import homeRoutes from "routes/home.routes";
@@ -16,14 +17,10 @@ app.use(
   }),
 );
 
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-const port = parseInt(process.env.SERVER_PORT || "3000", 10);
-
-
-
+const port = parseInt(process.env.PORT || "3000", 10);
 
 app.use((req, res, next) => {
   console.log("➡️", req.method, req.url);
