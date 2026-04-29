@@ -3,6 +3,7 @@
     "config": "dist/config",
     "routes": "dist/routes",
     "middleware": "dist/middleware",
+    "utils": "dist/utils",
     "@controllers": "dist/controllers",
     "@models": "dist/models",
     "@services": "dist/services"
