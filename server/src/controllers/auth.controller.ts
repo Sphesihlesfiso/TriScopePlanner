@@ -5,7 +5,7 @@ import {
   sendPassowordResertEmail,
   sendPassowordResertSuccessEmail,
   sendVerificationEmail,
-} from "mailtrap/emails";
+} from "../mailtrap/emails";
 import { verifyMail, saveResertToken } from "../services/auth.service";
 
 export const registerUser = async (req: Request, res: Response) => {
