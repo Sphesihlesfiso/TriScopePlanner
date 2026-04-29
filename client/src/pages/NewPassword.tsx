@@ -12,7 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {resertPassword} from "@/api/endpoints"
+import { resertPassword } from "@/api/endpoints";
 const passwordRules = [
   { label: "At least 6 characters", test: (p: string) => p.length >= 6 },
   { label: "One uppercase letter", test: (p: string) => /[A-Z]/.test(p) },
@@ -24,7 +24,7 @@ const passwordRules = [
   },
 ];
 
-export  const CreatePassword = () => {
+export const CreatePassword = () => {
   const { resertToken } = useParams<{ resertToken: string }>(); // Grabs token from URL
   const navigate = useNavigate();
 
@@ -44,10 +44,10 @@ export  const CreatePassword = () => {
 
     try {
       // Note: Passing the token to your API endpoint
-      
+
       const res = await resertPassword.postToken({
-        token: resertToken,
-        password: password,
+        resertToken: resertToken,
+        newPassword: password,
       });
 
       if (res.data.success) {
@@ -57,7 +57,7 @@ export  const CreatePassword = () => {
         toast.error(res.data.message || "Failed to reset password.");
       }
     } catch (error) {
-      toast.error("An error occurred. The link may be expired. "+error);
+      toast.error("An error occurred. The link may be expired. " + error);
     }
   };
 
