@@ -4,7 +4,8 @@ import { LoginSignIn } from "./pages/LoginSignIn";
 import { Route, Routes } from "react-router-dom";
 import { InputOTPForm } from "./pages/VerifyEmail";
 import { ResertPasswordCard } from "./pages/PassowordResert";
-import { CreatePassword } from "./pages/Newpassword";
+import { CreatePassword } from "./pages/NewPassword";
+//ts is case sensitive
 export const App = () => {
   return (
     <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
