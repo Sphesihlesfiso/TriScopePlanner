@@ -36,7 +36,7 @@ export const App = () => {
           }
         />
         <Route
-          path="/reset-password/:resertToken"
+          path="auth/reset-password/:resertToken"
           element={
             <div className="flex items-center justify-center h-screen ">
               <CreatePassword />
