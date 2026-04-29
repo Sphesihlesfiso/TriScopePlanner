@@ -109,7 +109,7 @@ export const changePassword = async (password: string, resertToken: string) => {
     const newHashedPassword = await bcrypt.hash(password, 10);
     if (existingUser.rows.length > 0) {
       const user = await dataBase.query(
-        `UPDATE users SET "hashedUserPassword"=$1 WHERE "resertToken"=$2 RETURNING *`,
+        `UPDATE users SET "hashedUserPassword"=$1 WHERE "resetToken"=$2 RETURNING *`,
         [newHashedPassword, resertToken],
       );
 
