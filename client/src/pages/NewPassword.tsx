@@ -132,8 +132,8 @@ export  const CreatePassword = () => {
           </div>
         </CardContent>
 
-        <CardFooter>
-          <Button type="submit" className="w-full" disabled={!canSubmit}>
+        <CardFooter className="mx-1">
+          <Button type="submit" className="w-full mt-2" disabled={!canSubmit}>
             Update Password
           </Button>
         </CardFooter>
