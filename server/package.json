@@ -1,10 +1,11 @@
 {
   "_moduleAliases": {
+    "config": "dist/config",
+    "routes": "dist/routes",
+    "middleware": "dist/middleware",
     "@controllers": "dist/controllers",
     "@models": "dist/models",
-    "@services": "dist/services",
-    "config": "dist/config",
-    "routes": "dist/routes"
+    "@services": "dist/services"
   },
   "name": "server",
   "version": "1.0.0",
