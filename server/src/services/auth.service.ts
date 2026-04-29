@@ -1,7 +1,6 @@
 import bcrypt from "bcrypt";
-import { dataBase } from "../config/db"; 
+import { dataBase } from "../config/db";
 import { json } from "stream/consumers";
-
 
 export const register = async (
   email: string,
@@ -58,7 +57,7 @@ export const signIn = async (email: string, password: string) => {
     if (!match) {
       throw { message: "Wrong password credentials" };
     }
-    
+
     return user.userId;
   } catch (error) {
     throw error;
@@ -78,7 +77,7 @@ export const verifyMail = async (verificationToken: number) => {
 };
 export const saveResertToken = async (
   resertToken: string,
-  resertTokenExpiration:Date,
+  resertTokenExpiration: Date,
   userEmail: string,
 ) => {
   try {
@@ -87,21 +86,21 @@ export const saveResertToken = async (
           SET "resetToken" = $2,
               "resetTokenExpiration" = $3
           WHERE "userEmail" = $1
-          RETURNING *`,[userEmail,resertToken,resertTokenExpiration]
+          RETURNING *`,
+      [userEmail, resertToken, resertTokenExpiration],
     );
-    return savedToken.rows[0]
+    return savedToken.rows[0];
   } catch (error) {
     throw error;
   }
 };
-export const changePassword = async (password: string,resertToken:string) => {
+export const changePassword = async (password: string, resertToken: string) => {
   try {
-
     const existingUser = await dataBase.query(
       `SELECT * FROM users WHERE "resertToken" = $1`,
       [resertToken],
     );
-    console.log(existingUser)
+    console.log(existingUser);
     if (!existingUser.rows.length) {
       return "Token not found or expired.";
     }
@@ -120,5 +119,16 @@ export const changePassword = async (password: string,resertToken:string) => {
     }
   } catch (error: any) {
     console.error(`Failed to reset password: ${error?.message}`);
+  }
+};
+export const getUserEmail = async (token: string) => {
+  try {
+    const user = await dataBase.query(
+      `SELECT from users WHERE "resetToken"=$1`,
+      [token],
+    );
+    return user.rows[0];
+  } catch (error) {
+    console.error(`Failed to get email using token error ${error}`)
   }
 };

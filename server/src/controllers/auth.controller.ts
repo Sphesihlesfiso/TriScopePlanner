@@ -1,5 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import { changePassword, register, signIn } from "@services/auth.service";
+import {
+  changePassword,
+  getUserEmail,
+  register,
+  signIn,
+} from "@services/auth.service";
 import { generateToken } from "utils/generateToken.utils";
 import {
   sendPassowordResertEmail,
@@ -34,7 +39,7 @@ export const verifyUserEmail = async (req: Request, res: Response) => {
   try {
     const user = await verifyMail(verificationToken);
     if (user)
-     return res
+      return res
         .status(200)
         .json({ success: true, message: "Successfully verified user email." });
     res.status(401).json({
@@ -71,9 +76,10 @@ export const sendPasswordresertEmail = async (req: Request, res: Response) => {
 };
 export const makeNewUserPassword = async (req: Request, res: Response) => {
   try {
-    const { newPassword, email } = req.body;
+    const { newPassword } = req.body;
     const { resertToken } = req.params;
     await changePassword(newPassword, resertToken);
+    const email = await getUserEmail(resertToken);
     await sendPassowordResertSuccessEmail(email);
     res.status(201).json({ success: true, message: "Changed user password." });
   } catch (error) {
