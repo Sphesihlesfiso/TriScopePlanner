@@ -2,7 +2,8 @@
   "_moduleAliases": {
     "@controllers": "dist/controllers",
     "@models": "dist/models",
-    "@services": "dist/services"
+    "@services": "dist/services",
+    "config": "dist/config"
   },
   "name": "server",
   "version": "1.0.0",
