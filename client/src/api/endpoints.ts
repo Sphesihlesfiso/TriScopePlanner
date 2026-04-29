@@ -9,6 +9,6 @@ export const loginUser=userCrude<User>("auth/sign-in")
 export const signUpUser = userCrude<User>("auth/register");
 export const logOut=userCrude<User>("auth/sign-out")
 export const verifyUserEmail = userCrude<User>("auth/verify-email");
-export const forgotPassword = userCrude<User>("auth/forgot-passoword");
+export const forgotPassword = userCrude<User>("auth/forgot-password");
 export const resertPassword = userCrude<User>("auth/reset-password");
 
