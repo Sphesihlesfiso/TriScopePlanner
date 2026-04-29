@@ -1,6 +1,3 @@
-
-
-
 import {
   Card,
   CardContent,
@@ -8,30 +5,30 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
-import { useNavigate } from "react-router-dom"
-import { resertPassword } from "@/api/endpoints"
-import { useState } from "react"
-import toast from "react-hot-toast"
-export const ResertPasswordCard =()=> {
-    const navigate=useNavigate()
-    const [email,setEmail]=useState("")
-    const submit =async() =>{
-        const res= await resertPassword.postUser({userName:"",password:"",
-            email:email
-        })
-        if (res.data.success){
-            navigate("/")
-            toast.success("Email with resert link has been sent to your email")
-
-        }
-        else{
-            toast.error("User with such email does not exist.")
-        }
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { forgotPassword } from "@/api/endpoints";
+import { useState } from "react";
+import toast from "react-hot-toast";
+export const ResertPasswordCard = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const submit = async () => {
+    const res = await forgotPassword.postUser({
+      userName: "",
+      password: "",
+      email: email,
+    });
+    if (res.data.success) {
+      navigate("/login");
+      toast.success("Email with resert link has been sent to your email");
+    } else {
+      toast.error("User with such email does not exist.");
     }
+  };
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
@@ -40,7 +37,6 @@ export const ResertPasswordCard =()=> {
           Enter the email address associated with your account and we'll send
           you a link to reset your password.
         </CardDescription>
-       
       </CardHeader>
       <CardContent>
         <form onSubmit={submit}>
@@ -52,8 +48,10 @@ export const ResertPasswordCard =()=> {
                 type="email"
                 placeholder="m@example.com"
                 required
-                onChange={(e)=>{e.preventDefault()
-                    setEmail(e.target.value)}}
+                onChange={(e) => {
+                  e.preventDefault();
+                  setEmail(e.target.value);
+                }}
               />
             </div>
           </div>
@@ -63,13 +61,17 @@ export const ResertPasswordCard =()=> {
         <Button type="submit" className="w-full">
           Continue
         </Button>
-        <Button variant="link" className="w-full" onClick={(e)=>{e.preventDefault()
-            navigate("/login")}}>
+        <Button
+          variant="link"
+          className="w-full"
+          onClick={(e) => {
+            e.preventDefault();
+            navigate("/login");
+          }}
+        >
           Return to sign-up
         </Button>
       </CardFooter>
     </Card>
   );
-}
-
-
+};
