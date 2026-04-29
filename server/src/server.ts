@@ -12,7 +12,7 @@ const app = express();
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://triscopeplanner-production.up.railway.app",
+    origin: "https://triscopeplaner.xyz",
     credentials: true,
   }),
 );
