@@ -28,7 +28,7 @@ export const App = () => {
           }
         />
         <Route
-          path="/forgot-passoword"
+          path="/forgot-password"
           element={
             <div className="flex items-center justify-center h-screen ">
               <ResertPasswordCard />
