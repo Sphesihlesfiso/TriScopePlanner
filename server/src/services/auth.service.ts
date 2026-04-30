@@ -100,12 +100,12 @@ export const changePassword = async (password: string, resertToken: string) => {
       `SELECT * FROM users WHERE "resetToken" = $1`,
       [resertToken],
     );
-    console.log(existingUser);
+ 
     if (!existingUser.rows.length) {
       return "Token not found or expired.";
     }
-    const oldUserPassword = existingUser.rows[0].hashedUserPassword;
-    console.log("old user password ", oldUserPassword);
+   
+
     const newHashedPassword = await bcrypt.hash(password, 10);
     if (existingUser.rows.length > 0) {
       const user = await dataBase.query(
