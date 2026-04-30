@@ -123,7 +123,7 @@ export const changePassword = async (password: string, resertToken: string) => {
 export const getUserEmail = async (token: string) => {
   try {
     const user = await dataBase.query(
-      `SELECT from users WHERE "resetToken"=$1`,
+      `SELECT  * from users WHERE "resetToken"=$1`,
       [token],
     );
     console.log(`this is the user ${user}`);
