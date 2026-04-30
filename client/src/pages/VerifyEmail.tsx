@@ -15,27 +15,36 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import type React from "react";
-import { useState } from "react";
+import React from "react";
+
 import { verifyUserEmail } from "@/api/endpoints";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 export const InputOTPForm =()=> {
   const navigate = useNavigate();
-  const [veificationToken, setVerificationToken] = useState("");
+  const [veificationToken, setVerificationToken] = React.useState<string>("");
+  const [loading,setLoading]=React.useState<boolean>(true)
 
   const submit = async (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
-    const result = await verifyUserEmail.postToken({
-      verificationToken: veificationToken,
-    },"");
-    console.log(result.data)
-    if (result.data.success) {
-      navigate("/");
-      toast.success("Successfully verified email.");
-    } else {
-      toast.error("Failed to to verify the token has expired or wrong.");
+    try {
+      const result = await verifyUserEmail.postToken(
+        {
+          verificationToken: veificationToken,
+        },
+        "",
+      );
+      if (result.data.success) {
+        navigate("/");
+        toast.success("Successfully verified email.");
+      } else {
+        toast.error("Failed to to verify the token has expired or wrong.");
+      }
+    } catch (error) {
+       toast.error("Failed to to verify user email."+error);
+    }finally{
+      setLoading(false)
     }
   };
   return (
@@ -80,7 +89,7 @@ export const InputOTPForm =()=> {
         </CardContent>
         <CardFooter>
           <Field>
-            <Button type="submit" className="w-full" onClick={submit}>
+            <Button type={loading?"button":"submit"} className="w-full" disabled={loading}>
               Verify
             </Button>
             <div className="text-sm text-muted-foreground">

@@ -47,10 +47,9 @@ export const CreatePassword = () => {
       // Note: Passing the token to your API endpoint
 
       const res = await resertPassword.postToken({
-        resertToken: resertToken,
         newPassword: password,
       },resertToken!);
-
+     
       if (res.data.success) {
         toast.success("Password reset successfully!");
         navigate("/login");
