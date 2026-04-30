@@ -20,12 +20,12 @@ import React from "react";
 import { verifyUserEmail } from "@/api/endpoints";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { verifyToken } from '../../../server/src/middleware/verifyToken';
+
 
 export const InputOTPForm =()=> {
   const navigate = useNavigate();
-  const [veificationToken, setVerificationToken] = React.useState<string>("");
-  const [loading,setLoading]=React.useState<boolean>(true)
+  const [verificationToken, setVerificationToken] = React.useState<string>("");
+  const [loading,setLoading]=React.useState<boolean>(false)
   // const [canSubmit, setCanSubmit] = React.useState<boolean>(false);
 
   const submit = async (e: React.FormEvent<HTMLElement>) => {
@@ -33,7 +33,7 @@ export const InputOTPForm =()=> {
     try {
       const result = await verifyUserEmail.postToken(
         {
-          verificationToken: veificationToken,
+          verificationToken: verificationToken,
         },
         "",
       );
@@ -71,7 +71,7 @@ export const InputOTPForm =()=> {
             </div>
             <InputOTP
               maxLength={5}
-              value={veificationToken}
+              value={verificationToken}
               id="otp-verification"
               required
               onChange={(veificationToken) =>
@@ -94,7 +94,7 @@ export const InputOTPForm =()=> {
             <Button
               type={loading ? "button" : "submit"}
               className="w-full"
-              disabled={verifyToken.length!=5}
+              disabled={verificationToken.length!=5}
             >
               {loading?"Verifying...":"Verify"}
             </Button>
