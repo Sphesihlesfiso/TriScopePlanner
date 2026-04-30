@@ -100,11 +100,10 @@ export const changePassword = async (password: string, resertToken: string) => {
       `SELECT * FROM users WHERE "resetToken" = $1`,
       [resertToken],
     );
- 
+
     if (!existingUser.rows.length) {
       return "Token not found or expired.";
     }
-   
 
     const newHashedPassword = await bcrypt.hash(password, 10);
     if (existingUser.rows.length > 0) {
@@ -127,6 +126,7 @@ export const getUserEmail = async (token: string) => {
       `SELECT from users WHERE "resetToken"=$1`,
       [token],
     );
+    console.log(`this is the user ${user}`);
     return user.rows[0];
   } catch (error) {
     console.error(`Failed to get email using token error ${error}`);
