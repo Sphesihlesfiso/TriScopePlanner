@@ -52,7 +52,7 @@ export const CreatePassword = () => {
      
       if (res.data.success) {
         toast.success("Password reset successfully!");
-        navigate("/login");
+        navigate("/");
       } else {
         toast.error(res.data.message || "Failed to reset password.");
       }

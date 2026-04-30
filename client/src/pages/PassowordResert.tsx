@@ -31,7 +31,7 @@ export const ResertPasswordCard = () => {
 
       if (res.data.success) {
         toast.success("Email with reset link has been sent to your email");
-        navigate("/login");
+        navigate("/");
       } else {
         toast.error("User with such email does not exist.");
       }
@@ -74,7 +74,7 @@ export const ResertPasswordCard = () => {
             disabled={isLoading}
             onClick={(e) => {
               e.preventDefault();
-              navigate("/login");
+              navigate("/");
             }}
           >
             Return to login
