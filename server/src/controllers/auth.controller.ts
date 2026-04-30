@@ -23,7 +23,6 @@ export const registerUser = async (req: Request, res: Response) => {
     );
     await generateToken(res, userId);
     await sendVerificationEmail(userEmail, verificationToken);
-
     res
       .status(201)
       .json({ success: true, message: "Successfully registered user." });
@@ -81,7 +80,7 @@ export const makeNewUserPassword = async (req: Request, res: Response) => {
     await changePassword(newPassword, resertToken);
 
     const { userEmail } = await getUserEmail(resertToken);
-    console.log(`${userEmail} ${newPassword} ${resertToken} got from token`)
+
     await sendPassowordResertSuccessEmail(userEmail);
     res.status(201).json({ success: true, message: "Changed user password." });
   } catch (error) {
