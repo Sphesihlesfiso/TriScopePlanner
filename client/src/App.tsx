@@ -11,14 +11,14 @@ export const App = () => {
     <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
       <Routes>
         <Route
-          path="/login"
+          path="/"
           element={
             <div className="flex items-center justify-center h-screen ">
               {<LoginSignIn />}
             </div>
           }
         />
-        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
         <Route
           path="/Email-verification"
           element={

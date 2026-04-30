@@ -31,7 +31,6 @@ const passwordRules = [
 export const LoginSignIn = () => {
   const navigate = useNavigate();
 
-  // --- State Management ---
   const [signUp, setSignUp] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [userName, setUsername] = useState("");
@@ -39,7 +38,6 @@ export const LoginSignIn = () => {
   const [userEmail, setEmail] = useState("");
   const [passwordFocused, setPasswordFocused] = useState(false);
 
-  // --- Logic Helpers ---
   const allRulesPassed = passwordRules.every((r) => r.test(password));
 
   const handleSubmit = async (e: React.FormEvent<HTMLElement>) => {
@@ -64,7 +62,7 @@ export const LoginSignIn = () => {
 
         if (results.data.success) {
           toast.success("Successfully logged in.");
-          navigate("/");
+          navigate("/home");
         } else {
           toast.error("Invalid credentials.");
         }

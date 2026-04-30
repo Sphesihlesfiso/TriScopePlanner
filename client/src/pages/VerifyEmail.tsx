@@ -40,7 +40,7 @@ export const InputOTPForm =()=> {
       );
 
       if (result.data.success) {
-        navigate("/");
+        navigate("/home");
         toast.success("Successfully verified email.");
       } else {
         toast.error("Failed to to verify the token has expired or wrong.");
