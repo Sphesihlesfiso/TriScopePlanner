@@ -173,7 +173,8 @@ export const LoginSignIn = () => {
               disabled={isLoading}
               onFocus={() => setPasswordFocused(true)}
               onBlur={() => setPasswordFocused(false)}
-              onChange={(e) => setpassword(e.target.value)}
+              onChange={(e) => setpassword(e.target.value)} 
+              className="mb-1"
             />
 
             {/* Password Validation Rules - Now using passwordFocused */}
@@ -207,7 +208,7 @@ export const LoginSignIn = () => {
         </CardContent>
 
         <CardFooter>
-          <Button type="submit" className="w-full" disabled={isLoading}>
+          <Button type="submit" className="w-full " disabled={isLoading}>
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {isLoading
               ? signUp
