@@ -32,7 +32,7 @@ import toast from "react-hot-toast";
 
 import type { TaskInputFormProps } from "@/types";
 import { postTask, editTask } from "@/api/endpoints";
-
+import { useNavigate } from "react-router-dom";
 export const TaskInputForm = ({
   triggerButton,
   formType,
@@ -50,7 +50,7 @@ export const TaskInputForm = ({
   const [endDate, setEndDate] = React.useState<Date>(new Date());
   const [startDateOpen, setStartDateOpen] = React.useState(false);
   const [endDateOpen, setEndDateOpen] = React.useState(false);
-
+  const navigate = useNavigate();
   const [userStartTime, setStartTime] = React.useState<string>(
     startTime === "" ? "09:00" : startTime,
   );
@@ -106,7 +106,7 @@ export const TaskInputForm = ({
       });
       toast.success("Changes saved");
     } else {
-      await postTask.create({
+      const res = await postTask.create({
         scope: userScope,
         taskId: taskId,
         title: userTitle,
@@ -114,7 +114,12 @@ export const TaskInputForm = ({
         startTime: resolvedStartTime,
         endTime: resolvedEndTime,
       });
-      toast.success("Task created");
+      if (res.data.success) {
+        toast.success("Task created");
+      } else {
+        toast.error("Please sign up first to post a task");
+        navigate("/login");
+      }
     }
 
     onSuccess?.();
