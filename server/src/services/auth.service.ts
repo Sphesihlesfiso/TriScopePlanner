@@ -122,13 +122,23 @@ export const changePassword = async (password: string, resertToken: string) => {
 };
 export const getUserEmail = async (token: string) => {
   try {
-    const user = await dataBase.query(
-      `SELECT  * from users WHERE "resetToken"=$1`,
+    const result = await dataBase.query(
+      `SELECT * FROM users WHERE "resetToken" = $1`,
       [token],
     );
-    console.log(`this is the user ${user.rows[0]}`);
-    return user.rows[0];
+
+    const user = result.rows[0];
+
+    if (!user) {
+      console.log("No user found with that token.");
+      return null;
+    }
+
+    // This will now show the actual data
+    console.log("User retrieved:", user);
+    return user;
   } catch (error) {
-    console.error(`Failed to get email using token error ${error}`);
+    console.error(`Failed to get email using token: ${error}`);
+    throw error; // Rethrowing allows the caller to handle the failure
   }
 };
