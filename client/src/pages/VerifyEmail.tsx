@@ -31,12 +31,14 @@ export const InputOTPForm =()=> {
   const submit = async (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
     try {
+      setLoading(true)
       const result = await verifyUserEmail.postToken(
         {
           verificationToken: verificationToken,
         },
         "",
       );
+
       if (result.data.success) {
         navigate("/");
         toast.success("Successfully verified email.");
