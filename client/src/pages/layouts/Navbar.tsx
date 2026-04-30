@@ -18,7 +18,7 @@ export const NavBar = ({ onRefresh }: NavBarProps) => {
     e.preventDefault();
     const res = await logOut.logout();
     if (res.data.success) {
-      navigate("/login");
+      navigate("/");
       toast.success("Successfully logged out.");
     } else {
       toast.error("Failed to logout user.");

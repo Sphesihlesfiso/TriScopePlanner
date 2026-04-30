@@ -83,7 +83,7 @@ export const LoginSignIn = () => {
       }
     } catch (error) {
       const err = error as AxiosError<{ message?: string }>;
-      // Basic Error handling (e.g., 401, 500)
+    
       const msg =
         err.response?.data?.message || "An unexpected error occurred.";
       toast.error(msg);
