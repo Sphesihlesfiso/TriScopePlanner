@@ -20,11 +20,13 @@ import React from "react";
 import { verifyUserEmail } from "@/api/endpoints";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { verifyToken } from '../../../server/src/middleware/verifyToken';
 
 export const InputOTPForm =()=> {
   const navigate = useNavigate();
   const [veificationToken, setVerificationToken] = React.useState<string>("");
   const [loading,setLoading]=React.useState<boolean>(true)
+  // const [canSubmit, setCanSubmit] = React.useState<boolean>(false);
 
   const submit = async (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
@@ -89,8 +91,12 @@ export const InputOTPForm =()=> {
         </CardContent>
         <CardFooter>
           <Field>
-            <Button type={loading?"button":"submit"} className="w-full" disabled={loading}>
-              Verify
+            <Button
+              type={loading ? "button" : "submit"}
+              className="w-full"
+              disabled={verifyToken.length!=5}
+            >
+              {loading?"Verifying...":"Verify"}
             </Button>
             <div className="text-sm text-muted-foreground">
               Having trouble signing in?{" "}
