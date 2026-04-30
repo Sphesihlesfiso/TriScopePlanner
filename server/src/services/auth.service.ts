@@ -126,7 +126,7 @@ export const getUserEmail = async (token: string) => {
       `SELECT  * from users WHERE "resetToken"=$1`,
       [token],
     );
-    console.log(`this is the user ${user}`);
+    console.log(`this is the user ${user.rows[0]}`);
     return user.rows[0];
   } catch (error) {
     console.error(`Failed to get email using token error ${error}`);
