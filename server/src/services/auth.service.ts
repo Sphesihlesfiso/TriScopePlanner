@@ -97,7 +97,7 @@ export const saveResertToken = async (
 export const changePassword = async (password: string, resertToken: string) => {
   try {
     const existingUser = await dataBase.query(
-      `SELECT * FROM users WHERE "resertToken" = $1`,
+      `SELECT * FROM users WHERE "resetToken" = $1`,
       [resertToken],
     );
     console.log(existingUser);
@@ -129,6 +129,6 @@ export const getUserEmail = async (token: string) => {
     );
     return user.rows[0];
   } catch (error) {
-    console.error(`Failed to get email using token error ${error}`)
+    console.error(`Failed to get email using token error ${error}`);
   }
 };

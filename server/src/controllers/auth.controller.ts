@@ -81,7 +81,7 @@ export const makeNewUserPassword = async (req: Request, res: Response) => {
     await changePassword(newPassword, resertToken);
 
     const email = await getUserEmail(resertToken);
-    console.log(`${email} got from token`)
+    console.log(`${email} ${newPassword} ${resertToken} got from token`)
     await sendPassowordResertSuccessEmail(email);
     res.status(201).json({ success: true, message: "Changed user password." });
   } catch (error) {
